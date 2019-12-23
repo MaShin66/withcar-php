@@ -1,10 +1,17 @@
-<div>
-<h1>1</h1>
-<h1>출발 시간</h1>
-<h1>출발지</h1>
-<h1>도착지</h1>
-<h1>2,400원</h1>
+<?=$return_ride_value[0]->ride_id?>
+<br>
+<?=$return_ride_value[0]->status?>
+<br>
+<?=$return_ride_value[0]->user_name?>
+<br>
+<?=$return_ride_value[0]->depature?>
+<br>
+<?=$return_ride_value[0]->destination?>
+<br>
+<?=$return_ride_value[0]->drive_distance?>
+<br>
+<?=$return_ride_value[0]->drive_time?>
+<br>
+<?=$return_ride_value[0]->withcar_price?>
 
-<a href="">수락하기</a>
-
-</div>
+<a href="">탑승 시키기</a>

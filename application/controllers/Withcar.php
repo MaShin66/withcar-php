@@ -2,23 +2,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Withcar extends CI_Controller {
-
-    /**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
-
   function __construct() { // 초기화 하는 곳이라 처음 생성할 때 로드하는 곳
         parent::__construct();
         $this->load->model('withcar_model');
@@ -27,11 +10,16 @@ class Withcar extends CI_Controller {
     public function index() { // 처음 게시판
         if($this->input->post()){
             $this->_email_signup($this->input->post());
+        } else if ($this->session->userdata()) {
+            $session_data = $this->session->userdata();
+
+            $this->load->view('section/head');
+            $this->load->view('withcar_view', array('session_data' => $session_data));
+            $this->load->view('section/footer');
         } else {
             $this->load->view('section/head');
-		    // $result = $this->withcar_model->test();
-            $this->load->view('withcar_view', array('result'=>$result));
-            $this->load->view('section/footer');    
+            $this->load->view('withcar_view');
+            $this->load->view('section/footer');
         }
         
 	}
@@ -44,8 +32,22 @@ class Withcar extends CI_Controller {
 
     function authentication() {
         $data = $this->input->post();
-        $this->withcar_model->email_get($data);
-        
+        $return_value = $this->withcar_model->user_get($data);
+        if($data['email'] === $return_value->email && password_verify($data['password'], $return_value->password)) {
+            $this->session->set_userdata(array(
+                'email' => $return_value->email,
+                'user_id' => $return_value->user_id,
+                'user_name' =>  $return_value->user_name,
+                'is_login' => true));
+            redirect('withcar/');
+        } else {
+            echo '로그인 실패';
+        }
+    }
+    
+    function logout() {
+        $this->session->sess_destroy();
+        redirect('withcar/');
     }
 
     function signup() {
@@ -72,36 +74,39 @@ class Withcar extends CI_Controller {
         }
     }
 
-    function _rideEnroll($ride_address) {        
-    //    var_dump($ride_address);
-//        $returnData = $this->model->insert($rideData);
-
-        echo '<script>alert("등록이 완료되었습니다.")</script>';
-    }
-
-    function ridecheck() {
+    function ride_route() {
         $ride_address = $this->input->post();
+        $session_data = $this->session->userdata();
         var_dump($ride_address);
-        // $this->_rideEnroll($ride_address);
-
-        // $this->load->view('section/head');
-        $this->load->view('rideList', array('ride_address' => $ride_address));
-        // $this->load->view('section/footer');
+        if ($this->session->userdata('is_login')) {
+            $this->load->view('section/head');
+            $this->load->view('ride_route', array('session_data' => $session_data, 'ride_address' => $ride_address));
+            $this->load->view('section/footer');
+        } else {
+            $this->load->view('section/head');
+            $this->load->view('ride_route', array('ride_address' => $ride_address));
+            $this->load->view('section/footer');
+        }
     }
 
     function ridelist() {
         $ride_info = $this->input->post();
-        var_dump($ride_info);
+
+        // $this->withcar_model->insert('ride', $ride_info);
+        // echo '<script>alert("등록이 완료되었습니다.")</script>';
+
+        $return_ridelist = $this->withcar_model->ride_get('status', 'REQUESTING');
+        $this->load->view('ridelist', array('return_ridelist' => $return_ridelist));
+        
     }
 
-    function ride($number) {
-//        $ridedata = $this->input->post();
-//        $returnData = $this->model->getRide($number);
-//        $this->load->view('withcar/ride', array('choiceRideData' => $returnData));
+    function ride($ride_id) {
+        $return_ride_value = $this->withcar_model->ride_get('ride_id', $ride_id);
         $this->load->view('section/head');
-        $this->load->view('ride');
+        $this->load->view('ride', array('return_ride_value' => $return_ride_value));
         $this->load->view('section/footer');
     }
+
 
 
 
