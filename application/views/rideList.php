@@ -1,3 +1,5 @@
+<h1>전체 운행 목록</h1>
+
 <?php
     foreach($return_ridelist as $data) { ?>
         <div><?=$data->user_name?></div>

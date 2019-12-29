@@ -32,14 +32,15 @@ class Withcar extends CI_Controller {
 
     function authentication() {
         $data = $this->input->post();
-        $return_value = $this->withcar_model->user_get($data);
+        $return_value = $this->withcar_model->get_row($data);
         if($data['email'] === $return_value->email && password_verify($data['password'], $return_value->password)) {
             $this->session->set_userdata(array(
                 'email' => $return_value->email,
                 'user_id' => $return_value->user_id,
                 'user_name' =>  $return_value->user_name,
+                'is_driver' => $return_value->is_driver,
                 'is_login' => true));
-            redirect('withcar/');
+            redirect('withcar', 'refresh');
         } else {
             echo '로그인 실패';
         }
@@ -47,7 +48,7 @@ class Withcar extends CI_Controller {
     
     function logout() {
         $this->session->sess_destroy();
-        redirect('withcar/');
+        redirect('withcar', 'refresh');
     }
 
     function signup() {
@@ -90,23 +91,65 @@ class Withcar extends CI_Controller {
     }
 
     function ridelist() {
-        $ride_info = $this->input->post();
+        if($this->input->post()) {
+            $ride_info = $this->input->post();
+            $this->withcar_model->insert('ride', $ride_info);
+            echo '<script>alert("등록이 완료되었습니다.")</script>';
+        } 
 
-        // $this->withcar_model->insert('ride', $ride_info);
-        // echo '<script>alert("등록이 완료되었습니다.")</script>';
-
-        $return_ridelist = $this->withcar_model->ride_get('status', 'REQUESTING');
+        $return_ridelist = $this->withcar_model->get_result('ride', 'status', 'REQUESTING');
         $this->load->view('ridelist', array('return_ridelist' => $return_ridelist));
         
     }
 
     function ride($ride_id) {
-        $return_ride_value = $this->withcar_model->ride_get('ride_id', $ride_id);
+        $return_ride_value = $this->withcar_model->get_result('ride', 'ride_id', $ride_id);
         $this->load->view('section/head');
         $this->load->view('ride', array('return_ride_value' => $return_ride_value));
         $this->load->view('section/footer');
     }
 
+    function riding($ride_id) {
+        // echo '<script>alert("탑승을 수락했습니다")</script>';
+        // 유저쪽에서 신청한 ride의 status가 ACCEPTED 로 변경됐을 때 알림 필요
+        $return_value = $this->withcar_model->update_data('ride_id', $ride_id, 'status', 'ACCEPTED', 'ride');
+        $this->load->view('section/head');
+        $this->load->view('riding', array('return_value' => $return_value));
+        $this->load->view('section/footer');
+    }
+
+    function my_route($user_id) {
+        $return_value = $this->withcar_model->get_result('ride', 'user_id', $user_id);
+
+        $this->load->view('section/head');
+        $this->load->view('my_route', array('return_value' => $return_value));
+        $this->load->view('section/footer');
+    }
+
+    function onroute($ride_id) {
+        $return_value = $this->withcar_model->update_data('ride_id', $ride_id, 'status', 'ONROUTE', 'ride');
+        
+        $this->load->view('section/head');
+        $this->load->view('riding', array('return_value' => $return_value));
+        $this->load->view('section/footer');
+    }
+
+    function ride_cancel($ride_id) {
+        echo '<script>alert("탑승을 취소했습니다")</script>';
+
+        $return_value = $this->withcar_model->update_data('ride_id', $ride_id, 'status', 'REQUESTING', 'ride');
+        redirect('withcar/ridelist', 'refresh');
+    }
+
+    function finished($ride_id) {
+        echo '<script>alert("운행이 종료되었습니다")</script>';
+        $return_value = $this->withcar_model->update_data('ride_id', $ride_id, 'status', 'FINISHED', 'ride');
+
+        $this->load->view('section/head');
+        $this->load->view('finished', array('return_value' => $return_value));
+        $this->load->view('section/footer');
+        
+    }
 
 
 

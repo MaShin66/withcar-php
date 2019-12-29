@@ -12,21 +12,21 @@ class Withcar_model extends CI_Model {
 		return $this->db->insert_id();
 	}
 
-	function user_get($data) {
+	function get_row($data) {
 		$this->db->select('*');
 		return $this->db->get_where('user', array('email' => $data['email'])) -> row();
 	}
 
-	function ride_get($column, $data) {
-		$this->db->select('ride_id,
-							status, 
-							user_name, 
-							depature, 
-							destination, 
-							drive_distance, 
-							drive_time, 
-							withcar_price');
-		return $this->db->get_where('ride', array($column => $data)) -> result();
+	function get_result($table, $column, $data) {
+		$this->db->select('*');
+		return $this->db->get_where($table, array($column => $data)) -> result();
+	}
+	
+	function update_data($where, $where_data, $set, $set_data, $table) {
+		$this->db->where($where, $where_data);
+		$this->db->set($set, $set_data);
+		$this->db->update($table);
+		return $this->db->get_where($table, array($where => $where_data)) -> result();
 	}
 
 	

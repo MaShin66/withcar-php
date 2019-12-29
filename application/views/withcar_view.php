@@ -4,11 +4,19 @@
 <?php 
     if($this->session->userdata('is_login') === true) { ?>
         <div><?=$session_data['user_name']?>님 안녕하세요</div>
-        <div><h1><a href="logout">로그아웃</a></h1></div>
-    <?php 
+        <div><h1><a href="withcar/logout">로그아웃</a></h1></div>
+        <div><h1><a href="withcar/ridelist">등록된 전체 경로</a></h1></div>
+    <?php
+        if($this->session->userdata('is_driver') === '1') { ?>
+            <div><h1><a href="withcar/my_route/<?=$session_data['user_id']?>">운전자모드: 내가 운행한 경로 보기</a></h1></div>
+        <?php
+        } else { ?>
+            <div><h1><a href="withcar/my_route/<?=$session_data['user_id']?>">탑승자모드: 내가 등록한 경로 보기</a></h1></div>
+        <?php
+        }
     } else { ?>
-        <div><h1><a href="login">로그인</a></h1></div>
-        <div><h1><a href="signup">이메일로 회원가입</a></h1></div>
+        <div><h1><a href="withcar/login">로그인</a></h1></div>
+        <div><h1><a href="withcar/signup">회원가입</a></h1></div>
     <?php 
     }
 ?>
@@ -34,7 +42,7 @@
 
 </div>
 
-<form action="ride_route" method="post">
+<form action="withcar/ride_route" method="post">
     <div>출발지<input type="text" id="depature" name="depature"></div>
     <input type="hidden" id="depature_latitude" name="depature_latitude">
     <input type="hidden" id="depature_longitude" name="depature_longitude">
