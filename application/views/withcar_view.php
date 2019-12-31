@@ -12,6 +12,7 @@
         <?php
         } else { ?>
             <div><h1><a href="withcar/my_route/<?=$session_data['user_id']?>">탑승자모드: 내가 등록한 경로 보기</a></h1></div>
+            <div><h1><a href="withcar/driver_enroll/<?=$session_data['user_id']?>">운전자 등록하기</a></h1></div>
         <?php
         }
     } else { ?>

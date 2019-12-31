@@ -19,14 +19,21 @@ class Withcar_model extends CI_Model {
 
 	function get_result($table, $column, $data) {
 		$this->db->select('*');
-		return $this->db->get_where($table, array($column => $data)) -> result();
+		return $this->db->get_where($table, array($column => $data)) -> result(); // row(); 로 바꿔보기
 	}
 	
 	function update_data($where, $where_data, $set, $set_data, $table) {
 		$this->db->where($where, $where_data);
 		$this->db->set($set, $set_data);
 		$this->db->update($table);
+
 		return $this->db->get_where($table, array($where => $where_data)) -> result();
+	}
+
+	function update_data2($where, $where_data, $data, $table) {
+		$data['driver_id'] = $where_data;
+		$this->db->where($where, $where_data);
+		$this->db->update($table, $data);
 	}
 
 	

@@ -147,8 +147,20 @@ class Withcar extends CI_Controller {
 
         $this->load->view('section/head');
         $this->load->view('finished', array('return_value' => $return_value));
+        $this->load->view('section/footer');        
+    }
+
+    function driver_enroll($user_id) {
+        $this->load->view('section/head');
+        $this->load->view('driver_enroll', array('user_id' => $user_id));
         $this->load->view('section/footer');
-        
+    }
+
+    function driver_enroll2($user_id) {
+        $data = $this->input->post();
+        $this->withcar_model->update_data2('user_id', $user_id, $data, 'user');
+        echo '<script>alert("운전자 등록이 완료되었습니다. 다시 로그인해주세요")</script>';
+        redirect('withcar/logout', 'refresh');
     }
 
 
