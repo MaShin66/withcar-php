@@ -25,8 +25,16 @@
         
         <input type="text" id="drive_distance" name="drive_distance">
         <input type="text" id="drive_time" name="drive_time">
+        <div>
+            <select name="payment" id="payment">
+                <option value="TRANSFER" selected>계좌이체</option>
+                <option value="CASH">현금</option>
+            </select>
+        </div>
         <div>예상 택시요금 <input type="text" id="taxi_price" name="taxi_price"></div>
         <div>예상 위드카 요금 <input type="text" id="withcar_price" name="withcar_price"></div>
+        <div>예상 출발 날짜<input type="text" id="date_value" name="date_value" value="<?=$ride_address['date_value']?>"</div>
+        <div>예상 출발 시간<input type="text" id="time_value" name="time_value" value="<?=$ride_address['time_value']?>"</div>
 
         <?php
             if(isset($session_data['is_login'])) { ?>

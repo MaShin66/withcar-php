@@ -52,9 +52,18 @@
     <input type="hidden" id="destination_latitude" name="destination_latitude">
     <input type="hidden" id="destination_longitude" name="destination_longitude">
 
-    <div>시간 설정하기</div>
+    <div><input type="date" id="date_value" name="date_value"></div>
+    <div><input type="time" id="time_value" name="time_value"></div>
     
     <div><input type="submit" value="예상 경로와 금액 확인">
 </form>
 
 <script src="../../static/js/kakaomap_api.js"></script>
+
+<script>
+    var timezoneOffset = new Date().getTimezoneOffset() * 60000;
+    var timezoneDate = new Date(Date.now() - timezoneOffset);
+
+    document.getElementById('date_value').value = timezoneDate.toISOString().slice(0, 10);
+    document.getElementById('time_value').value = timezoneDate.toISOString().slice(11, 16);
+</script>

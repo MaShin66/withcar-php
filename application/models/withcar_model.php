@@ -8,13 +8,19 @@ class Withcar_model extends CI_Model {
 	function insert($table, $data) {
 		date_default_timezone_set('Asia/Seoul');
 		$data['created'] = date("Y-m-d H:i:s");
+		if($table === 'ride') {
+			$data['ride_time'] = $data['date_value'].' '.$data['time_value'];
+			unset($data['date_value']);
+			unset($data['time_value']);
+		}
+		
 		$this->db->insert($table, $data);
 		return $this->db->insert_id();
 	}
 
-	function get_row($data) {
+	function get_row($table, $column, $data) {
 		$this->db->select('*');
-		return $this->db->get_where('user', array('email' => $data['email'])) -> row();
+		return $this->db->get_where($table, array($column => $data)) -> row();
 	}
 
 	function get_result($table, $column, $data) {
@@ -27,13 +33,18 @@ class Withcar_model extends CI_Model {
 		$this->db->set($set, $set_data);
 		$this->db->update($table);
 
-		return $this->db->get_where($table, array($where => $where_data)) -> result();
+		return $this->db->get_where($table, array($where => $where_data)) -> row();
 	}
 
 	function update_data2($where, $where_data, $data, $table) {
-		$data['driver_id'] = $where_data;
+		if($table === 'user') {
+			// driver_id 를 유일값으로 못하다보니 user_id 의 값과 같은 것으로 넣기
+			$data['driver_id'] = $where_data;
+		}
 		$this->db->where($where, $where_data);
 		$this->db->update($table, $data);
+
+		return $this->db->get_where($table, array($where => $where_data)) -> row();
 	}
 
 	
