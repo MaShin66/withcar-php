@@ -1,15 +1,46 @@
-<div>
-    <div><h1>이메일 가입</h1></div>
+<style>
+.form-horizontal {
+    left: 10%;
+    top: 22%;
+    position: absolute;
+    width: 80%;
+}
+</style>
 
-    <div>
-        <form action="./" method="post">
-            <div>이메일 주소<input type="text" name="email"></div>
-            <div>비밀번호<input type="password" name="password"></div>
-            <div>이름<input type="text" name="user_name"></div>
-            <div>학번<input type="text" name="student_id"></div>
-            <div>휴대폰 번호<input type="text" name="phone"></div>
-            <div>운행 매칭후에 번호가 상대방에게 공개됩니다.</div>
-            <div><input type="submit" value="가입하기"></div>
-        </form>
+<form class="form-horizontal" action="./" method="post">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">이메일 주소</label>
+    <div class="col-sm-10">
+      <input type="email" class="form-control" id="inputEmail3" name="email" placeholder="abc@gmail.com">
     </div>
-</div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">비밀번호</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" id="inputPassword3" name="password">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">이름</label>
+    <div class="col-sm-10">
+      <input type="email" class="form-control" id="inputEmail3" name="user_name">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">학번</label>
+    <div class="col-sm-10">
+      <input type="email" class="form-control" id="inputEmail3" name="student_id">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">휴대폰 번호</label>
+    <div class="col-sm-10">
+      <input type="email" class="form-control" id="inputEmail3" name="phone" placeholder="010-0000-0000">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default">회원가입</button>
+    </div>
+  </div>
+</form>
