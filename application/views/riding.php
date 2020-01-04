@@ -2,6 +2,7 @@
 
 <div>상태 <?=$return_value->status?></div>
 <div>탑승자 이름 <?=$return_value->user_name?></div>
+<div>탑승자 휴대폰 번호 <?=$return_value->phone?></div>
 <div>출발지 <?=$return_value->depature?></div>
 <div>도착지 <?=$return_value->destination?></div>
 <div>운행 거리 <?=$return_value->drive_distance?></div>

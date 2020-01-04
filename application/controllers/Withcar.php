@@ -190,6 +190,10 @@ class Withcar extends CI_Controller {
         redirect('withcar/logout', 'refresh');
     }
 
+    function is_pay($ride_id) {
+        $this->withcar_model->update_data('ride_id', $ride_id, 'status', 'FINISHED', 'ride');
+        redirect('/withcar', 'refresh');
+    }
 
 
 }

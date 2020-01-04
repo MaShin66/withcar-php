@@ -1,6 +1,6 @@
 <?php
-    var_dump($return_ride_value);
-    var_dump($return_user_value);
+    // var_dump($return_ride_value);
+    // var_dump($return_user_value);
 ?>
 
 <?php
@@ -14,3 +14,5 @@
     <?php
     }
 ?>
+
+<a href="../is_pay/<?=$return_ride_value->ride_id?>">이체완료</a>

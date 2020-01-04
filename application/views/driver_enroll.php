@@ -14,6 +14,8 @@
     <br>
     은행 <input type="text" name="bank">
     <br>
+    예금주 <input type="text" name="account_holder">
+    <br>
     계좌번호 <input type="text" name="account">
     <br>
 
