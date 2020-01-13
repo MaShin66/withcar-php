@@ -11,3 +11,5 @@
     <title> </title>
 </head>
 <body style="margin: 0; padding: 0;">
+
+<a href="." class="btn btn-primary" style="margin: 1rem;">홈</a>

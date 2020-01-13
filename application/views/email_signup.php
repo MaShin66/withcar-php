@@ -9,33 +9,33 @@
 
 <form class="form-horizontal" action="./" method="post">
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">이메일 주소</label>
+    <label for="email" class="col-sm-2 control-label">이메일 주소</label>
     <div class="col-sm-10">
-      <input type="email" class="form-control" id="inputEmail3" name="email" placeholder="abc@gmail.com">
+      <input type="email" class="form-control" id="email" name="email" placeholder="abc@gmail.com">
     </div>
   </div>
   <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">비밀번호</label>
+    <label for="password" class="col-sm-2 control-label">비밀번호</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" id="inputPassword3" name="password">
+      <input type="password" class="form-control" id="password" name="password">
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">이름</label>
+    <label for="user_name" class="col-sm-2 control-label">이름</label>
     <div class="col-sm-10">
-      <input type="email" class="form-control" id="inputEmail3" name="user_name">
+      <input type="text" class="form-control" id="user_name" name="user_name">
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">학번</label>
+    <label for="student_id" class="col-sm-2 control-label">학번</label>
     <div class="col-sm-10">
-      <input type="email" class="form-control" id="inputEmail3" name="student_id">
+      <input type="text" class="form-control" id="student_id" name="student_id">
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">휴대폰 번호</label>
+    <label for="phone" class="col-sm-2 control-label">휴대폰 번호</label>
     <div class="col-sm-10">
-      <input type="email" class="form-control" id="inputEmail3" name="phone" placeholder="010-0000-0000">
+      <input type="text" class="form-control" id="phone" name="phone" placeholder="010-0000-0000">
     </div>
   </div>
   <div class="form-group">

@@ -20,8 +20,7 @@ class Withcar extends CI_Controller {
             $this->load->view('section/head');
             $this->load->view('withcar_view');
             $this->load->view('section/footer');
-        }
-        
+        }   
 	}
 
     function login() { // 회원가입, 로그인
@@ -78,7 +77,7 @@ class Withcar extends CI_Controller {
     function ride_route() {
         $ride_address = $this->input->post();
         $session_data = $this->session->userdata();
-        var_dump($ride_address);
+        // var_dump($ride_address);
         if ($this->session->userdata('is_login')) {
             $this->load->view('section/head');
             $this->load->view('ride_route', array('session_data' => $session_data, 'ride_address' => $ride_address));
