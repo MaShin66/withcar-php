@@ -1,10 +1,22 @@
-<?php
-    if($this->session->userdata('is_driver') === '1') {
-        echo '드라이버 모드';
-    } else {
-        echo '이용자 모드';
-    }
+<style>
+.div_style {
+    border: 1px solid black;
+    margin: 20px;
+    padding: 20px;
+    font-size: 2.8rem;
+    border-radius: 16px;
+}
 
+.cancel_style {
+    text-align: center;
+}
+
+.height_div {
+    height: 50px;
+}
+</style>
+
+<?php
     if($return_ride_value->status === 'ACCEPTED'){
         echo '이용자 모드';
         echo '<script>alert("드라이버가 요청을 수락했습니다.");</script>';
@@ -12,33 +24,30 @@
         echo '<script>alert("드라이버가 운행을 시작했습니다. 운행정보 페이지로 이동합니다.");</script>';
         redirect('withcar/onroute/'.$return_ride_value->ride_id, 'refresh');
     }
-
 ?>
-
-<?=$return_ride_value->ride_id?>
-<br>
-<?=$return_ride_value->status?>
-<br>
-<?=$return_ride_value->user_name?>
-<br>
-<?=$return_ride_value->depature?>
-<br>
-<?=$return_ride_value->destination?>
-<br>
-<?=$return_ride_value->drive_distance?>
-<br>
-<?=$return_ride_value->drive_time?>
-<br>
-<?=$return_ride_value->withcar_price?>
-<br>
-<?=$return_ride_value->payment?>
-
-<br><br>
-<a href="../ride_cancel/<?=$return_ride_value->ride_id?>">운행 취소</a>
-
-<?php
-    if($this->session->userdata('is_driver') === '1') { ?>
-        <a href="../riding/<?=$return_ride_value->ride_id?>">탑승 시키기</a>
+<div class="height_div"></div>
+<div class="div_style">
+    <div><?=$return_ride_value->status?></div>
+    <div>이름 <?=$return_ride_value->user_name?></div>
+    <div>출발지 <?=$return_ride_value->depature?></div>
+    <div>도착지 <?=$return_ride_value->destination?></div>
+    <div>운행 거리 <?=$return_ride_value->drive_distance?> km</div>
+    <div>운행 시간 <?=$return_ride_value->drive_time?> 분</div>
+    <div>위드카 예상 요금 <?=$return_ride_value->withcar_price?> 원</div>
+    <div>결제 방법 <?=$return_ride_value->payment?></div>
+    <br><br>
     <?php
-    }
-?>
+        if($this->session->userdata('is_driver') === '1' && $return_ride_value->status === 'REQUESTING') { ?>
+            <div class="cancel_style"><a href="../riding/<?=$return_ride_value->ride_id?>">탑승 시키기</a></div>
+        <?php
+        } else if($this->session->userdata('is_driver') === '0' 
+            && $this->session->userdata('user_id') === $return_ride_value->user_id
+            && ($return_ride_value->status === 'REQUESTING' 
+                || $return_ride_value->status === 'ACCPETED' 
+                || $return_ride_value->status === 'ONROUTE')) { ?>
+            <div class="cancel_style"><a href="../ride_cancel/<?=$return_ride_value->ride_id?>">운행 취소</a></div>
+        <?php
+        }
+    ?>
+    
+</div>

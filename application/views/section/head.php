@@ -8,8 +8,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-    <title> </title>
+    <title>WithCar</title>
+
+    <style>
+    .logo_style {
+        text-align: center;
+        display: inline-block;
+        margin-left: 68px;
+    }
+    </style>
 </head>
 <body style="margin: 0; padding: 0;">
 
-<a href="." class="btn btn-primary" style="margin: 1rem;">홈</a>
+<div class="logo_style"><a href=<?=site_url()?>/withcar class="btn btn-primary" style="margin: 1rem;">WithCar</a></div>

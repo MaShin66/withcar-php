@@ -1,26 +1,47 @@
-내가 신청한 탑승자의 운행 정보
+<style>
+.div_style {
+    border: 1px solid black;
+    margin: 20px;
+    padding: 20px;
+    font-size: 2.8rem;
+    border-radius: 16px;
+}
 
-<div>상태 <?=$return_value->status?></div>
-<div>탑승자 이름 <?=$return_value->user_name?></div>
-<div>탑승자 휴대폰 번호 <?=$return_value->phone?></div>
-<div>출발지 <?=$return_value->depature?></div>
-<div>도착지 <?=$return_value->destination?></div>
-<div>운행 거리 <?=$return_value->drive_distance?></div>
-<div>운행 시간 <?=$return_value->drive_time?></div>
-<div>출발 시간 <?=$return_value->ride_time?></div>
-<div>금액 <?=$return_value->withcar_price?></div>
-<br><br>
-<div>운전자 Id <?=$return_value->driver_id?></div>
-<div>운전자 이름 <?=$return_value->driver_name?></div>
-<div>결제방식 <?=$return_value->payment?></div>
+.cancel_style {
+    text-align: center;
+}
+</style>
 
-
+<div class="div_style">
+<?php
+    if($this->session->userdata('is_driver') === '1') { ?>
+        <div>내가 수락한<br>탑승자의 운행 정보</div>
+    <?php
+    } else if($this->session->userdata('is_driver') === '0') { ?>
+        <div>내가 신청한<br>운행 정보</div>
+    <?php
+    } 
+?>
+    <br>
+    <div>상태 <?=$return_value->status?></div>
+    <div>탑승자 이름 <?=$return_value->user_name?></div>
+    <div>탑승자 휴대폰 번호<br><?=$return_value->user_phone?></div>
+    <br>
+    <div>출발지 <?=$return_value->depature?></div>
+    <div>도착지 <?=$return_value->destination?></div>
+    <br>
+    <div>운행 거리 <?=$return_value->drive_distance?> km</div>
+    <div>운행 시간 <?=$return_value->drive_time?> 분</div>
+    <div>출발 시간 <?=$return_value->ride_time?></div>
+    <br>
+    <div>금액 <?=$return_value->withcar_price?> 원</div>
+    <br>
 
 <?php
     if($return_value->status === 'ACCEPTED') { ?>
-        <a href="../ride_cancel/<?=$return_value->ride_id?>">운행 취소</a>
-        <br><br>
-        <a href="../onroute/<?=$return_value->ride_id?>">탑승자를 태웠다면 클릭해주세요</a>
+        <div class="cancel_style"><a href="../ride_cancel/<?=$return_value->ride_id?>">운행 취소</a></div>
+        <br>
+        <div class="cancel_style"><a href="../onroute/<?=$return_value->ride_id?>">탑승자를 태웠다면<br>클릭해주세요</a></div>
     <?php
     } else if($return_value->status === 'ONROUTE') { ?>
         <h1>운행중입니다..</h1>
@@ -30,3 +51,5 @@
         redirect('withcar/finished/'.$return_value->ride_id, 'refresh');
     }
 ?>
+
+</div>

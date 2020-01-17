@@ -19,7 +19,7 @@ function initTmap(){
         method:"POST",
         headers : headers,
         url:"https://api2.sktelecom.com/tmap/routes?version=1&format=xml",
-        async:false,
+        async: false,
         data:{
             startX : startX,
             startY : startY,
@@ -48,7 +48,7 @@ function initTmap(){
             var tFare = " 총 요금 : "+$intRate[0].getElementsByTagName("tmap:totalFare")[0].childNodes[0].nodeValue+"원,";
             var taxiFare = " 예상 택시 요금 : "+$intRate[0].getElementsByTagName("tmap:taxiFare")[0].childNodes[0].nodeValue+"원";
 
-            document.getElementById("drive_distance").value = ($intRate[0].getElementsByTagName("tmap:totalDistance")[0].childNodes[0].nodeValue/1000).toFixed(1); 
+            document.getElementById("drive_distance").value = ($intRate[0].getElementsByTagName("tmap:totalDistance")[0].childNodes[0].nodeValue/1000).toFixed(1);
             document.getElementById("drive_time").value = ($intRate[0].getElementsByTagName("tmap:totalTime")[0].childNodes[0].nodeValue/60).toFixed(0)
             document.getElementById("taxi_price").value = $intRate[0].getElementsByTagName("tmap:taxiFare")[0].childNodes[0].nodeValue
             document.getElementById("withcar_price").value = ($intRate[0].getElementsByTagName("tmap:taxiFare")[0].childNodes[0].nodeValue)*0.75

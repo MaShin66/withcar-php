@@ -6,7 +6,7 @@
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <?php 
     if($this->session->userdata('is_login') === true) { ?>
-        <div><?=$session_data['user_name']?>님 안녕하세요</div>
+        <div style="color: coral;";><h2><?=$session_data['user_name']?>님 안녕하세요</h2></div>
         <div><h1><a href="withcar/logout">로그아웃</a></h1></div>
         <div><h1><a href="withcar/ridelist">등록된 전체 경로</a></h1></div>
     <?php
@@ -26,24 +26,25 @@
 ?>
 </div>
 
-<span style="font-size: 30px; cursor: pointer" onclick="openNav()">&#9776; 메뉴</span>
+<span style="font-size: 30px; cursor: pointer; float: left;" onclick="openNav()">&#9776; 메뉴</span>
 
+<div>
+    <div class="map_wrap">
+        <div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
 
-<div class="map_wrap">
-    <div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
-
-   <div id="menu_wrap" class="bg_white">
-       <div class="option">
-           <div>
-               <form onsubmit="searchPlaces(); return false;">
-                   키워드 : <input type="text" value="" id="keyword" size="15">
-                   <button type="submit">검색하기</button>
-               </form>
-           </div>
-       </div>
-       <hr>
-       <ul id="placesList"></ul>
-       <div id="pagination"></div>
+    <div id="menu_wrap" class="bg_white">
+        <div class="option">
+            <div>
+                <form onsubmit="searchPlaces(); return false;">
+                    키워드 : <input type="text" value="" id="keyword" size="15">
+                    <button type="submit">검색하기</button>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <ul id="placesList"></ul>
+        <div id="pagination"></div>
+    </div>
 </div>
 
 </div>

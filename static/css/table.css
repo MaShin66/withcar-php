@@ -1,0 +1,30 @@
+.head_style {
+    text-align: center;
+}
+
+.title_style {
+    font-size: 3rem;
+}
+
+.span_style {
+    margin: 16px;
+}
+
+.a_style {
+    font-size: 2rem;
+    border: 2px solid black;
+    padding: 4px;
+    border-radius: 10px;
+}
+
+.tdata_style {
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 24px;
+    padding: 14px;
+    font-size: 1.7rem;
+}
+
+.status_style {
+    float: right;
+}

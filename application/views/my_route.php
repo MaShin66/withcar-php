@@ -1,22 +1,32 @@
-<a href="../../withcar">홈으로</a>
+<link rel="stylesheet" type="text/css" href="../../../static/css/table.css">
 
-<h1>내가 운행한 / 등록한 경로 보기</h1>
+<div>
+    <div class="head_style">
+        <div class="title_style">나의 운행 목록</div>
+        <br>
+        <div class="div_style">
+            <a href="../withcar" class="a_style">홈으로</a>
+            <span class="span_style"></span>
+            <a href="./ridelist" class="a_style">새로고침</a>
+        </div>
+    </div>
 
-
-<?php
-
-    foreach($return_value as $data) { ?>
-        <div><?=$data->status;?></div>
-        <div><?=$data->depature;?></div>
-        <div><?=$data->destination;?></div>
-        <div><?=$data->drive_distance;?></div>
-        <div><?=$data->drive_time;?></div>
-        <div><?=$data->withcar_price;?></div>
-        <div><?=$data->payment;?></div>
-        <div><?=$data->created;?></div>
-        <a href="../ride/<?=$data->ride_id?>">자세히 보기</a>
-        <br><br>
-    <?php
-    }
-?>
-
+    <div class="table_style">
+        <?php
+            foreach($return_value as $data) { ?>
+                <div class="tdata_style">
+                    <span class="status_style">상태 <?=$data->status?></span>
+                    <div>출발지 <?=$data->depature;?></div>
+                    <div>도착지 <?=$data->destination;?></div>
+                    <div>거리 <?=$data->drive_distance;?></div>
+                    <div>시간 <?=$data->drive_time;?></div>
+                    <div>금액 <?=$data->withcar_price;?></div>
+                    <div>결제방법 <?=$data->payment;?></div>
+                    <div>운행 생성 날짜 <?=$data->created;?></div>
+                    <div><a href="../ride/<?=$data->ride_id?>">자세히 보기</a></div>
+                </div>
+            <?php
+            }
+        ?>
+    </div>
+</div>
