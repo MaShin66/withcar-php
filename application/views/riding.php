@@ -23,7 +23,22 @@
     } 
 ?>
     <br>
-    <div>상태 <?=$return_value->status?></div>
+    <div>
+        <?php
+            if($return_value->status === 'REQUESTING') {
+                $stats = '요청 대기중';
+            } else if($return_value->status === 'ACCEPTED') {
+                $stats = '요청 수락됨';
+            } else if($return_value->status === 'ONROUTE') {
+                $stats = '운행중';
+            } else if($return_value->status === 'FINISHE') {
+                $stats = '운행 종료';
+            } else if($return_value->status === 'UNPAID') {
+                $stats = '미결제';
+            }
+        ?>
+        <?=$stats?>
+    </div>
     <div>탑승자 이름 <?=$return_value->user_name?></div>
     <div>탑승자 휴대폰 번호<br><?=$return_value->user_phone?></div>
     <br>

@@ -32,11 +32,22 @@
         <div>출발지 <?=$return_value->depature?></div>
         <div>도착지 <?=$return_value->destination?></div>
         <br>
-        <div>운행 거리 <?=$return_value->drive_distance?></div>
-        <div>운행 시간 <?=$return_value->drive_time?></div>
+        <div>운행 거리 <?=$return_value->drive_distance?> km</div>
+        <div>운행 시간 <?=$return_value->drive_time?> 분</div>
         <br>
-        <div>결제 금액 <?=$return_value->withcar_price?></div>
-        <div>결제 방법 <?=$return_value->payment?></div>
+        <div>결제 금액 <?=$return_value->withcar_price?> 원</div>
+        <div>결제방법
+            <?php
+            if($return_value->payment === 'TRANSFER') {
+                $payment = '계좌이체';
+            } else if($return_value->payment === 'CASH') {
+                $payment = '현금 결제';
+            } else if($return_value->payment === 'PAY') {
+                $payment = '페이';
+            }
+            ?>
+            <?=$payment?>
+        </div>
     </div>
 
     <?php

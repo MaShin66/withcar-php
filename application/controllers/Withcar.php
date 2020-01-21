@@ -12,14 +12,14 @@ class Withcar extends CI_Controller {
             $this->_email_signup($this->input->post());
         } else if ($this->session->userdata()) {
             $session_data = $this->session->userdata();
-            $this->load->view('section/head');
+            $this->load->view('section/head', array('session_data' => $session_data));
             $this->load->view('withcar_view', array('session_data' => $session_data));
             $this->load->view('section/footer');
         } else {
             $this->load->view('section/head');
             $this->load->view('withcar_view');
             $this->load->view('section/footer');
-        }   
+        }
 	}
 
     function login() { // 회원가입, 로그인
@@ -87,7 +87,7 @@ class Withcar extends CI_Controller {
         $session_data = $this->session->userdata();
         echo true;
         if ($this->session->userdata('is_login')) {
-            $this->load->view('section/head');
+            $this->load->view('section/head', array('session_data' => $session_data));
             $this->load->view('ride_route', array('session_data' => $session_data, 'ride_address' => $ride_address));
             $this->load->view('section/footer');
         } else {
@@ -105,7 +105,8 @@ class Withcar extends CI_Controller {
         } 
 
         $return_ridelist = $this->withcar_model->get_result('ride', 'status', 'REQUESTING');
-        $this->load->view('section/head');
+        $session_data = $this->session->userdata();
+        $this->load->view('section/head', array('session_data' => $session_data));
         $this->load->view('ridelist', array('return_ridelist' => $return_ridelist));
         $this->load->view('section/footer');
     }
@@ -115,13 +116,15 @@ class Withcar extends CI_Controller {
         if($get_value->status === 'UNPAID') {
             $return_value = $this->withcar_model->update_data('ride_id', $ride_id, 'status', 'UNPAID', 'ride');
 
-            $this->load->view('section/head');
+            $session_data = $this->session->userdata();
+            $this->load->view('section/head', array('session_data' => $session_data));
             $this->load->view('riding', array('return_value' => $return_value));
             $this->load->view('section/footer');
         }
 
         $return_ride_value = $this->withcar_model->get_row('ride', 'ride_id', $ride_id);
-        $this->load->view('section/head');
+        $session_data = $this->session->userdata();
+        $this->load->view('section/head', array('session_data' => $session_data));
         $this->load->view('ride', array('return_ride_value' => $return_ride_value));
         $this->load->view('section/footer');
     }
@@ -135,7 +138,8 @@ class Withcar extends CI_Controller {
         $data['driver_name'] = $this->session->userdata('user_name');
         $data['driver_phone'] = $this->session->userdata('phone');
         $return_value = $this->withcar_model->update_data2('ride_id', $ride_id, $data, 'ride');
-        $this->load->view('section/head');
+        $session_data = $this->session->userdata();
+        $this->load->view('section/head', array('session_data' => $session_data));
         $this->load->view('riding', array('return_value' => $return_value));
         $this->load->view('section/footer');
     }
@@ -147,7 +151,8 @@ class Withcar extends CI_Controller {
             $return_value = $this->withcar_model->get_result('ride', 'user_id', $user_id);
         }
         
-        $this->load->view('section/head');
+        $session_data = $this->session->userdata();
+        $this->load->view('section/head', array('session_data' => $session_data));
         $this->load->view('my_route', array('return_value' => $return_value));
         $this->load->view('section/footer');
     }
@@ -161,7 +166,8 @@ class Withcar extends CI_Controller {
             $return_value = $this->withcar_model->update_data('ride_id', $ride_id, 'status', 'ONROUTE', 'ride');
         }
 
-        $this->load->view('section/head');
+        $session_data = $this->session->userdata();
+        $this->load->view('section/head', array('session_data' => $session_data));
         $this->load->view('riding', array('return_value' => $return_value));
         $this->load->view('section/footer');
     }
@@ -170,7 +176,8 @@ class Withcar extends CI_Controller {
         echo '<script>alert("운행이 종료되었습니다")</script>';
         $return_value = $this->withcar_model->update_data('ride_id', $ride_id, 'status', 'UNPAID', 'ride');
         
-        $this->load->view('section/head');
+        $session_data = $this->session->userdata();
+        $this->load->view('section/head', array('session_data' => $session_data));
         $this->load->view('finished', array('return_value' => $return_value));
         $this->load->view('section/footer');
     }
@@ -179,7 +186,8 @@ class Withcar extends CI_Controller {
         $return_ride_value = $this->withcar_model->get_row('ride', 'ride_id', $ride_id);
         $return_user_value = $this->withcar_model->get_row('user', 'user_id', $return_ride_value->driver_id);
 
-        $this->load->view('section/head');
+        $session_data = $this->session->userdata();
+        $this->load->view('section/head', array('session_data' => $session_data));
         $this->load->view('payment', array('return_ride_value' => $return_ride_value, 'return_user_value' => $return_user_value));
         $this->load->view('section/footer');
     }
@@ -192,7 +200,8 @@ class Withcar extends CI_Controller {
     }
 
     function driver_enroll($user_id) {
-        $this->load->view('section/head');
+        $session_data = $this->session->userdata();
+        $this->load->view('section/head', array('session_data' => $session_data));
         $this->load->view('driver_enroll', array('user_id' => $user_id));
         $this->load->view('section/footer');
     }
@@ -207,6 +216,38 @@ class Withcar extends CI_Controller {
     function is_pay($ride_id) {
         $this->withcar_model->update_data('ride_id', $ride_id, 'status', 'FINISHED', 'ride');
         redirect('/withcar', 'refresh');
+    }
+    
+    function editprofile($user_id) {
+        $return_user_value = $this->withcar_model->get_row('user', 'user_id', $user_id);
+
+        $session_data = $this->session->userdata();
+        $this->load->view('section/head', array('session_data' => $session_data));
+        $this->load->view('editprofile', array('return_user_value' => $return_user_value));
+        $this->load->view('section/footer');
+    }
+
+    function changepwd($user_id) {
+        $return_user_value = $this->withcar_model->get_row('user', 'user_id', $user_id);
+
+        $session_data = $this->session->userdata();
+        $this->load->view('section/head', array('session_data' => $session_data));
+        $this->load->view('changepwd', array('return_user_value' => $return_user_value));
+        $this->load->view('section/footer');
+    }
+
+    function chagepwd2() {
+        $user_id = $this->session->userdata('user_id');
+        $input_data = $this->input->post();
+        $hash_pwd = password_hash($input_data['password'], PASSWORD_BCRYPT);
+        $input_data['password'] = $hash_pwd;
+        $return_value = $this->withcar_model->update_data('user_id', $user_id, 'password', $input_data['password'], 'user');
+        if($return_value) {
+            echo '<script>alert("비밀번호가 변경 되었습니다.")</script>';
+            redirect('withcar', 'refresh');
+        } else {
+            echo '<script>alert("오류로 인해 비밀번호 변경에 실패했습니다.")</script>';
+        }
     }
 
 

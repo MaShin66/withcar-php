@@ -5,6 +5,14 @@
     border-radius: 8px;
     padding: 10px;
     font-size: 1.8rem;
+    margin-top: 80px;
+}
+
+.submit_style {
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 6px;
+    background-color: lavenderblush;
 }
 
 </style>
@@ -54,7 +62,7 @@
                     <input type="hidden" name="user_id", value="<?=$session_data['user_id']?>">
                     <input type="hidden" name="user_name", value="<?=$session_data['user_name']?>">
                     <input type="hidden" name="user_phone", value="<?=$session_data['phone']?>">
-                    <input type="submit" value="리스트 등록하기">
+                    <div class="submit_style"><input type="submit" value="리스트 등록하기"></div>
                 <?php
                 } else { ?>
                     <div><a href="login">로그인하고 리스트 등록하기</a></div>
