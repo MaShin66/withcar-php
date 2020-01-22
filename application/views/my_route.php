@@ -23,7 +23,7 @@
                                 $stats = '요청 수락됨';
                             } else if($data->status === 'ONROUTE') {
                                 $stats = '운행중';
-                            } else if($data->status === 'FINISHE') {
+                            } else if($data->status === 'FINISHED') {
                                 $stats = '운행 종료';
                             } else if($data->status === 'UNPAID') {
                                 $stats = '미결제';

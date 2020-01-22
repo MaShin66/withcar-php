@@ -39,7 +39,7 @@
                 $stats = '요청 수락됨';
             } else if($return_ride_value->status === 'ONROUTE') {
                 $stats = '운행중';
-            } else if($return_ride_value->status === 'FINISHE') {
+            } else if($return_ride_value->status === 'FINISHED') {
                 $stats = '운행 종료';
             } else if($return_ride_value->status === 'UNPAID') {
                 $stats = '미결제';

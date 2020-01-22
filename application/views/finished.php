@@ -14,6 +14,12 @@
 
 <div class="div_style">
     <div>주행 결과</div>
+    <?php
+        if($return_value->status === 'UNPAID') { ?>
+            <div>미결제</div>
+        <?php
+        }
+    ?>
     <br>
     <?php
         if($this->session->userdata('is_driver') === '1') { ?>

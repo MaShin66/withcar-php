@@ -2,7 +2,7 @@ function initTmap(){
     var map = new Tmap.Map({
         div:'map_div',  // 결과 지도를 표시할 곳
         width : "100%",  // 가로와 세로 사이즈는 픽셀로 적을 수도 있고
-        height : "50%", // 퍼센트로 적을 수도 있다. 홈페이지 예제는 픽셀로 되어 있음.
+        height : "400px", // 퍼센트로 적을 수도 있다. 홈페이지 예제는 픽셀로 되어 있음.
     });
     // 경로 탐색 출발지점과 도착 지점의 좌표
     // 구글 지도에서 나오는 좌표의 x, y를 바꾸면 된다.     
@@ -34,6 +34,8 @@ function initTmap(){
         },
 
         success:function(response){ //API가 제대로 작동할 경우 실행될 코드
+
+            
             prtcl = response;
 
             // 결과 출력 부분 - 여기는 잘 모르겠음.
@@ -78,3 +80,8 @@ function initTmap(){
         }
     });
 }
+
+$(document).ready(function(){
+initTmap();
+console.log('re');
+});

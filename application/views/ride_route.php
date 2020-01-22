@@ -24,8 +24,8 @@
     var destination_latitude = <?=$ride_address['destination_latitude']?>;
     var destination_longitude = <?=$ride_address['destination_longitude']?>;
 </script>
-
-<body onload="initTmap()">
+<script src="../../static/js/tmap_api.js"></script>
+<body>
 
     <div id="map_div">
     </div>
@@ -71,5 +71,3 @@
             ?>
         </form>
     </div>
-
-<script src="../../static/js/tmap_api.js"></script>

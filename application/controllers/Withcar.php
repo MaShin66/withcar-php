@@ -85,7 +85,6 @@ class Withcar extends CI_Controller {
     function ride_route() {
         $ride_address = $this->input->post();
         $session_data = $this->session->userdata();
-        echo true;
         if ($this->session->userdata('is_login')) {
             $this->load->view('section/head', array('session_data' => $session_data));
             $this->load->view('ride_route', array('session_data' => $session_data, 'ride_address' => $ride_address));
