@@ -2,25 +2,6 @@
 <link rel="stylesheet" type="text/css" href="../../static/css/kakaomap_api.css">
 <link rel="stylesheet" type="text/css" href="../../static/css/withcar_view.css">
 
-<style>
-.map_wrap {
-    margin: 10px;
-    
-}
-
-.from_div {
-    margin-top: 18px;
-}
-
-.map_style {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-}
-</style>
-
-
 <div class="map_wrap">
     <div id="map" class="map_style"></div>
     <div id="menu_wrap" class="bg_white">
@@ -40,11 +21,11 @@
 
 <form action="withcar/ride_route" method="post">
     <div class="form_div">
-        <div class="place_div">출발지<input type="text" id="depature" name="depature"></div>
+        <div class="place_div">출발지<input type="text" id="depature" class="address_style" name="depature" required readonly></div>
         <input type="hidden" id="depature_latitude" name="depature_latitude">
         <input type="hidden" id="depature_longitude" name="depature_longitude">
 
-        <div class="place_div">도착지<input type="text" id="destination" name="destination"></div>
+        <div class="place_div">도착지<input type="text" id="destination" class="address_style" name="destination" required readonly></div>
         <input type="hidden" id="destination_latitude" name="destination_latitude">
         <input type="hidden" id="destination_longitude" name="destination_longitude">
 
@@ -54,7 +35,7 @@
         </div>
         
         <div class="place_div submit_style">
-            <input type="submit" value="예상 경로와 금액 확인">
+            <input type="submit" class="submit_in_style" value="예상 경로와 금액 확인">
         </div>
     </div>
 </form>

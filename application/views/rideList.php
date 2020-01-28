@@ -1,5 +1,13 @@
 <link rel="stylesheet" type="text/css" href="../../static/css/table.css">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+<style>
+.icon_style {
+    font-size: 2rem;
+}
+</style>
+
 <div>
     <div class="head_style">
         <div class="title_style">전체 운행 목록</div>
@@ -16,7 +24,7 @@
             foreach($return_ridelist as $data) { ?>
                 <div class="tdata_style">
                     <div>
-                        <span>탑승자 <?=$data->user_name?></span>
+                        <span><i class="far fa-user icon_style"></i> <?=$data->user_name?></span>
                         <span class="status_style">
                             <?php
                                 if($data->status === 'REQUESTING') {
@@ -34,11 +42,11 @@
                             <?=$stats?>
                         </span>
                     </div>
-                    <div>출발지 <?=$data->depature?></div>
-                    <div>도착지 <?=$data->destination?></div>
+                    <div><i class="fas fa-sign-in-alt icon_style"></i> <?=$data->depature?></div>
+                    <div><i class="fas fa-sign-out-alt icon_style"></i> <?=$data->destination?></div>
                     <div>거리 <?=$data->drive_distance;?> km</div>
                     <div>시간 <?=$data->drive_time;?> 분</div>
-                    <div>금액 <?=$data->withcar_price;?> 원</div>
+                    <div><i class="fas fa-coins icon_style"></i> <?=$data->withcar_price;?> 원</div>
                     <div>결제방법
                      <?php
                         if($data->payment === 'TRANSFER') {

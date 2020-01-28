@@ -25,7 +25,7 @@ class Withcar_model extends CI_Model {
 
 	function get_result($table, $column, $data) {
 		$this->db->select('*');
-		return $this->db->get_where($table, array($column => $data)) -> result(); // row(); 로 바꿔보기
+		return $this->db->order_by('created', 'DESC')->get_where($table, array($column => $data)) -> result(); // row(); 로 바꿔보기
 	}
 	
 	function update_data($where, $where_data, $set, $set_data, $table) {

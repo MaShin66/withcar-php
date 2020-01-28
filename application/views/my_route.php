@@ -36,7 +36,18 @@
                     <div>거리 <?=$data->drive_distance;?></div>
                     <div>시간 <?=$data->drive_time;?></div>
                     <div>금액 <?=$data->withcar_price;?></div>
-                    <div>결제방법 <?=$data->payment;?></div>
+                    <div>결제방법
+                     <?php
+                        if($data->payment === 'TRANSFER') {
+                            $payment = '계좌이체';
+                        } else if($data->payment === 'CASH') {
+                            $payment = '현금 결제';
+                        } else if($data->payment === 'PAY') {
+                            $payment = '페이';
+                        }
+                     ?>
+                     <?=$payment?>
+                    </div>
                     <div>운행 생성 날짜 <?=$data->created;?></div>
                     <div><a href="../ride/<?=$data->ride_id?>">자세히 보기</a></div>
                 </div>

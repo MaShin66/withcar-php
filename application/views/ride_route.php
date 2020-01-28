@@ -3,16 +3,20 @@
     border: 1px solid black;
     margin: 16px;
     border-radius: 8px;
-    padding: 10px;
-    font-size: 1.8rem;
-    margin-top: 80px;
+    padding: 16px;
+    font-size: 2rem;
+    margin-top: 8%;
 }
 
 .submit_style {
     text-align: center;
     border: 1px solid black;
     border-radius: 6px;
-    background-color: lavenderblush;
+    background-color: lightsteelblue;
+}
+
+.input_style {
+    width: 124px;
 }
 
 </style>
@@ -32,15 +36,15 @@
 
     <div class="form_style">
         <form action="ridelist" method="post">
-            <div>출발지 <input type="text" name="depature" value="<?=$ride_address['depature']?>"></div>
+            <div>출발지 <input type="text" name="depature" value="<?=$ride_address['depature']?>" readonly></div>
             <input type="hidden" name="depature_latitude" value="<?=$ride_address['depature_latitude']?>">
             <input type="hidden" name="depature_longitude" value="<?=$ride_address['depature_longitude']?>">
-            <div>도착지 <input type="text" name="destination" value="<?=$ride_address['destination']?>"></div>
+            <div>도착지 <input type="text" name="destination" value="<?=$ride_address['destination']?>" readonly></div>
             <input type="hidden" name="destination_latitude" value="<?=$ride_address['destination_latitude']?>">
             <input type="hidden" name="destination_longitude" value="<?=$ride_address['destination_longitude']?>">
             <br>
-            <div>운행 거리 <input type="text" id="drive_distance" class="input_style" name="drive_distance"></div>
-            <div>운행 시간 <input type="text" id="drive_time" class="input_style" name="drive_time"></div>
+            <div>운행 거리 (km) <input type="text" id="drive_distance" class="input_style" name="drive_distance" readonly></div>
+            <div>운행 시간 (분)<input type="text" id="drive_time" class="input_style" name="drive_time" readonly></div>
             <br>
             <div>
                 <span>결제 방법</span>
@@ -51,10 +55,10 @@
                     </select>
                 </span>
             </div>
-            <div>예상 택시요금 <input type="text" id="taxi_price" class="input_style" name="taxi_price"></div>
-            <div>예상 위드카 요금 <input type="text" id="withcar_price" class="input_style" name="withcar_price"></div>
-            <div>출발 날짜<input type="text" id="date_value" class="input_style" name="date_value" value="<?=$ride_address['date_value']?>"</div>
-            <div>출발 시간<input type="text" id="time_value" class="input_style" name="time_value" value="<?=$ride_address['time_value']?>"</div>
+            <div>예상 택시요금 (원) <input type="text" id="taxi_price" class="input_style" name="taxi_price" readonly></div>
+            <div>예상 위드카 요금 (원) <input type="text" id="withcar_price" class="input_style" name="withcar_price" readonly></div>
+            <div>출발 날짜<input type="text" id="date_value" class="input_style" name="date_value" value="<?=$ride_address['date_value']?>" readonly></div>
+            <div>출발 시간<input type="text" id="time_value" class="input_style" name="time_value" value="<?=$ride_address['time_value']?>" readonly></div>
             <br>
             <br>
             <?php
@@ -65,7 +69,7 @@
                     <div class="submit_style"><input type="submit" value="리스트 등록하기"></div>
                 <?php
                 } else { ?>
-                    <div><a href="login">로그인하고 리스트 등록하기</a></div>
+                    <div class="submit_style"><a href="login">로그인하고 리스트 등록하기</a></div>
                 <?php
                 }
             ?>

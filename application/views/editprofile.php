@@ -3,11 +3,21 @@
     margin-top: 80px;
     padding-left: 29px;
     font-size: 2.3rem;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 14px;
+    margin: 18px;
+    margin-top: 40%;
+    line-height: 38px;
+}
+
+.my_style {
+    font-size: 3rem;
 }
 </style>
 
 <div class="div_style">
-    <div>내 정보</div>
+    <div class="my_style">내 정보</div>
     <br>
     <div>이름 <?=$return_user_value->user_name?></div>
     <div>학번(교번) <?=$return_user_value->student_id?></div>
@@ -17,7 +27,7 @@
     <br>
 <?php
     if($return_user_value->is_driver === '0') { ?>
-        <div>운전자 등록을 하지 않았습니다</div>
+        <div><a href=<?=site_url()?>/withcar/driver_enroll/<?=$session_data['user_id']?>>운전자 등록</a></div>
     <?php
     } else if($return_user_value->is_driver === '1') { ?>
         <div>운전자 정보</div>
