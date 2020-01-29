@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
 <style>
 .form_style {
     border: 1px solid black;
@@ -19,6 +21,9 @@
     width: 124px;
 }
 
+.icon_style {
+    font-size: 2rem;
+}
 </style>
 
 <script src="https://api2.sktelecom.com/tmap/js?version=1&format=javascript&appKey=da7b106e-e761-42bd-948c-e1dd2a1d66d5"></script>        
@@ -36,10 +41,10 @@
 
     <div class="form_style">
         <form action="ridelist" method="post">
-            <div>출발지 <input type="text" name="depature" value="<?=$ride_address['depature']?>" readonly></div>
+            <div><i class="fas fa-sign-out-alt icon_style"></i> <input type="text" name="depature" value="<?=$ride_address['depature']?>" readonly></div>
             <input type="hidden" name="depature_latitude" value="<?=$ride_address['depature_latitude']?>">
             <input type="hidden" name="depature_longitude" value="<?=$ride_address['depature_longitude']?>">
-            <div>도착지 <input type="text" name="destination" value="<?=$ride_address['destination']?>" readonly></div>
+            <div><i class="fas fa-sign-in-alt icon_style"></i> <input type="text" name="destination" value="<?=$ride_address['destination']?>" readonly></div>
             <input type="hidden" name="destination_latitude" value="<?=$ride_address['destination_latitude']?>">
             <input type="hidden" name="destination_longitude" value="<?=$ride_address['destination_longitude']?>">
             <br>

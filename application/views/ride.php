@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
 <style>
 .div_style {
     border: 1px solid black;
@@ -17,6 +19,10 @@
 
 .status_style {
     text-align: center;
+}
+
+.icon_style {
+    font-size: 2rem;
 }
 </style>
 
@@ -48,12 +54,12 @@
         <?=$stats?>
     </div>
     <br>
-    <div>이름 <?=$return_ride_value->user_name?></div>
-    <div>출발지 <?=$return_ride_value->depature?></div>
-    <div>도착지 <?=$return_ride_value->destination?></div>
+    <div><i class="far fa-user icon_style"></i> <?=$return_ride_value->user_name?></div>
+    <div><i class="fas fa-sign-out-alt icon_style"></i> <?=$return_ride_value->depature?></div>
+    <div><i class="fas fa-sign-in-alt icon_style"></i> <?=$return_ride_value->destination?></div>
     <div>운행 거리 <?=$return_ride_value->drive_distance?> km</div>
     <div>운행 시간 <?=$return_ride_value->drive_time?> 분</div>
-    <div>위드카 예상 요금 <?=$return_ride_value->withcar_price?> 원</div>
+    <div><i class="fas fa-coins icon_style"></i> <?=$return_ride_value->withcar_price?> 원</div>
     <div>결제방법
     <?php
         if($return_ride_value->payment === 'TRANSFER') {

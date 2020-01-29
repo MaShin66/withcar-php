@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
 <style>
 .div_style {
     border: 1px solid black;
@@ -9,6 +11,10 @@
 
 .cancel_style {
     text-align: center;
+}
+
+.icon_style {
+    font-size: 2rem;
 }
 </style>
 
@@ -35,8 +41,8 @@
         <div>탑승자 <?=$return_value->user_name?></div>
         <div>운전자 <?=$return_value->driver_name?></div>
         <br>
-        <div>출발지 <?=$return_value->depature?></div>
-        <div>도착지 <?=$return_value->destination?></div>
+        <div><i class="fas fa-sign-out-alt icon_style"></i> <?=$return_value->depature?></div>
+        <div><i class="fas fa-sign-in-alt icon_style"></i> <?=$return_value->destination?></div>
         <br>
         <div>운행 거리 <?=$return_value->drive_distance?> km</div>
         <div>운행 시간 <?=$return_value->drive_time?> 분</div>

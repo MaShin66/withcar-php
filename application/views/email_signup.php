@@ -4,6 +4,7 @@
     top: 22%;
     position: absolute;
     width: 80%;
+    font-size: 2.4rem;
 }
 </style>
 

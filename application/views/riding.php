@@ -1,27 +1,40 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
 <style>
 .div_style {
     border: 1px solid black;
     margin: 20px;
     padding: 20px;
-    font-size: 2.8rem;
+    font-size: 2.2rem;
     border-radius: 16px;
 }
 
 .cancel_style {
     text-align: center;
 }
+
+.icon_style {
+    font-size: 3rem;
+}
+
+.title_style {
+    text-align: center;
+}
 </style>
 
 <div class="div_style">
-<?php
-    if($this->session->userdata('is_driver') === '1') { ?>
-        <div>내가 수락한<br>탑승자의 운행 정보</div>
-    <?php
-    } else if($this->session->userdata('is_driver') === '0') { ?>
-        <div>내가 신청한<br>운행 정보</div>
-    <?php
-    } 
-?>
+    <div class="title_style">
+        <?php
+            if($this->session->userdata('is_driver') === '1') { ?>
+                <div>내가 수락한<br>탑승자의 운행 정보</div>
+            <?php
+            } else if($this->session->userdata('is_driver') === '0') { ?>
+                <div>내가 신청한<br>운행 정보</div>
+            <?php
+            } 
+        ?>
+    </div>
+
     <br>
     <div>
         <?php
@@ -39,17 +52,17 @@
         ?>
         <?=$stats?>
     </div>
-    <div>탑승자 이름 <?=$return_value->user_name?></div>
-    <div>탑승자 휴대폰 번호<br><?=$return_value->user_phone?></div>
+    <div><i class="far fa-user icon_style"></i> <?=$return_value->user_name?></div>
+    <div><i class="fas fa-mobile-alt icon_style"></i> <?=$return_value->user_phone?></div>
     <br>
-    <div>출발지 <?=$return_value->depature?></div>
-    <div>도착지 <?=$return_value->destination?></div>
+    <div><i class="fas fa-sign-out-alt icon_style"></i> <?=$return_value->depature?></div>
+    <div><i class="fas fa-sign-in-alt icon_style"></i> <?=$return_value->destination?></div>
     <br>
     <div>운행 거리 <?=$return_value->drive_distance?> km</div>
     <div>운행 시간 <?=$return_value->drive_time?> 분</div>
-    <div>출발 시간 <?=$return_value->ride_time?></div>
+    <div>출발 시간 <?=$return_value->ride_time?> 분</div>
     <br>
-    <div>금액 <?=$return_value->withcar_price?> 원</div>
+    <div><i class="fas fa-coins icon_style"></i> <?=$return_value->withcar_price?> 원</div>
     <br>
 
 <?php

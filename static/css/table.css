@@ -22,9 +22,23 @@
     border-radius: 10px;
     margin: 24px;
     padding: 14px;
-    font-size: 1.7rem;
+    font-size: 2rem;
 }
 
-.status_style {
+.right_style {
     float: right;
 }
+
+.center_style {
+    text-align: center;
+}
+
+.icon_style {
+    font-size: 2rem;
+}
+
+/* 곧 삭제 */
+.status_style { 
+    float: right;
+}
+

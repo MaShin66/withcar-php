@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
 <style>
 .div_style {
     margin-top: 80px;
@@ -13,6 +15,7 @@
 
 .my_style {
     font-size: 3rem;
+    text-align: center;
 }
 </style>
 

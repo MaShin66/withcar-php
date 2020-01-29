@@ -24,7 +24,7 @@
     if($this->session->userdata('is_login') === true) { ?>
         <div class="name_style"><h1><a style="color: cornflowerblue;" href=<?=site_url()?>/withcar/editprofile/<?=$session_data['user_id']?>><?=$session_data['user_name']?></a></h1></div>
         <div><h1><a href=<?=site_url()?>/withcar/logout>로그아웃</a></h1></div>
-        <div><h1><a href=<?=site_url()?>/withcar/ridelist>등록된 전체 경로</a></h1></div>
+        <div><h1><a href=<?=site_url()?>/withcar/ridelist>대기중인<br>전체 경로</a></h1></div>
     <?php
         if($this->session->userdata('is_driver') === '1') { ?>
             <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>운전자모드: 내가 운행한 경로 보기</a></h1></div>
@@ -36,7 +36,7 @@
         }
     } else { ?>
         <div><h1><a href=<?=site_url()?>/withcar/login>로그인</a></h1></div>
-        <div><h1><a href=<?=site_url()?>/withcar/logout>회원가입</a></h1></div>
+        <div><h1><a href=<?=site_url()?>/withcar/signup>회원가입</a></h1></div>
     <?php 
     }
 ?>
