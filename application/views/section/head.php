@@ -27,10 +27,10 @@
         <div><h1><a href=<?=site_url()?>/withcar/ridelist>대기중인<br>전체 경로</a></h1></div>
     <?php
         if($this->session->userdata('is_driver') === '1') { ?>
-            <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>운전자모드: 내가 운행한 경로 보기</a></h1></div>
+            <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>내가 운행한 경로 보기</a></h1></div>
         <?php
         } else { ?>
-            <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>탑승자모드: 내가 등록한 경로 보기</a></h1></div>
+            <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>내가 등록한 경로 보기</a></h1></div>
             <div><h1><a href=<?=site_url()?>/withcar/driver_enroll/<?=$session_data['user_id']?>>운전자 등록하기</a></h1></div>
         <?php
         }

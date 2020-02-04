@@ -28,6 +28,7 @@
 
 <script src="https://api2.sktelecom.com/tmap/js?version=1&format=javascript&appKey=da7b106e-e761-42bd-948c-e1dd2a1d66d5"></script>        
 <script type="text/javascript">
+
     var depature_latitude = <?=$ride_address['depature_latitude']?>;
     var depature_longitude = <?=$ride_address['depature_longitude']?>;
     var destination_latitude = <?=$ride_address['destination_latitude']?>;

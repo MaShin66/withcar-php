@@ -47,6 +47,26 @@ class Withcar_model extends CI_Model {
 		return $this->db->get_where($table, array($where => $where_data)) -> row();
 	}
 
+	function price_unpiad_get($table, $column, $data) {
+		$this->db->select_sum('withcar_price');
+		$this->db->from($table);
+		$this->db->where($column, $data);
+		$this->db->where('status', 'UNPAID');
+
+		$query = $this->db->get();
+		return $query->row();
+	}
+
+	function price_finished_get($table, $column, $data) {
+		$this->db->select_sum('withcar_price');
+		$this->db->from($table);
+		$this->db->where($column, $data);
+		$this->db->where('status', 'FINISHED');
+
+		$query = $this->db->get();
+		return $query->row();
+	}
+
 	
 }
 

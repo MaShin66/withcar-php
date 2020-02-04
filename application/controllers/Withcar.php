@@ -171,13 +171,18 @@ class Withcar extends CI_Controller {
         $this->load->view('section/footer');
     }
     
+    // 상대가 결제해도 finished 페이지에서 새로고침하면 또 UNPAID 로 바뀌므로 수정
     function finished($ride_id) {
-        echo '<script>alert("운행이 종료되었습니다")</script>';
-        $return_value = $this->Withcar_model->update_data('ride_id', $ride_id, 'status', 'UNPAID', 'ride');
-        
+        $get_value = $this->Withcar_model->get_row('ride', 'ride_id', $ride_id);
+        if($get_value->status === 'UNPAID') {
+            $return_value = $this->Withcar_model->update_data('ride_id', $ride_id, 'status', 'UNPAID', 'ride');
+        } else if($get_value->status === 'FINISHED') {
+            echo '<script>alert("결제가 완료되었습니다")</script>';
+        }
+
         $session_data = $this->session->userdata();
         $this->load->view('section/head', array('session_data' => $session_data));
-        $this->load->view('finished', array('return_value' => $return_value));
+        $this->load->view('finished', array('return_value' => $get_value));
         $this->load->view('section/footer');
     }
 
@@ -247,6 +252,17 @@ class Withcar extends CI_Controller {
         } else {
             echo '<script>alert("오류로 인해 비밀번호 변경에 실패했습니다.")</script>';
         }
+    }
+
+    function calculate($user_id) {
+        // $return_ride_value = $this->Withcar_model->get_result('ride', 'driver_id', $user_id);
+        $return_unpiad_price = $this->Withcar_model->price_unpiad_get('ride', 'driver_id', $user_id);
+        $return_finished_price = $this->Withcar_model->price_finished_get('ride', 'driver_id', $user_id);
+        
+        $session_data = $this->session->userdata();
+        $this->load->view('section/head', array('session_data' => $session_data));
+        $this->load->view('calculate', array('return_unpiad_price' => $return_unpiad_price, 'return_finished_price' => $return_finished_price));
+        $this->load->view('section/footer');
     }
 
 

@@ -6,9 +6,9 @@
         <div class="title_style">나의 운행 목록</div>
         <br>
         <div class="div_style">
-            <a href="../withcar" class="a_style">홈으로</a>
+            <a href=<?=site_url()?>/withcar class="a_style">홈으로</a>
             <span class="span_style"></span>
-            <a href="./ridelist" class="a_style">새로고침</a>
+            <a href=<?=site_url()?>/withcar/calculate/<?=$session_data['user_id']?> class="a_style">정산관리</a>
         </div>
     </div>
 

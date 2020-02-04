@@ -1,6 +1,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
 <style>
+.title_style {
+    text-align: center;
+}
+
 .div_style {
     border: 1px solid black;
     margin: 20px;
@@ -16,10 +20,14 @@
 .icon_style {
     font-size: 2rem;
 }
+
+.submit_style {
+    text-align: center;
+}
 </style>
 
 <div class="div_style">
-    <div>주행 결과</div>
+    <div class="title_style">주행 결과</div>
     <?php
         if($return_value->status === 'UNPAID') { ?>
             <div>미결제</div>
@@ -59,6 +67,16 @@
             }
             ?>
             <?=$payment?>
+        </div>
+
+        <div>
+        <?php 
+            if($return_value->status === 'FINISHED') { ?>
+                <br>
+                <div class="submit_style">결제완료</div>
+            <?php
+            }
+        ?>
         </div>
     </div>
 

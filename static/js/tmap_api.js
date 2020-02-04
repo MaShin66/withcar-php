@@ -51,9 +51,14 @@ function initTmap(){
             var taxiFare = " 예상 택시 요금 : "+$intRate[0].getElementsByTagName("tmap:taxiFare")[0].childNodes[0].nodeValue+"원";
 
             document.getElementById("drive_distance").value = ($intRate[0].getElementsByTagName("tmap:totalDistance")[0].childNodes[0].nodeValue/1000).toFixed(1);
-            document.getElementById("drive_time").value = ($intRate[0].getElementsByTagName("tmap:totalTime")[0].childNodes[0].nodeValue/60).toFixed(0)
-            document.getElementById("taxi_price").value = $intRate[0].getElementsByTagName("tmap:taxiFare")[0].childNodes[0].nodeValue
-            document.getElementById("withcar_price").value = ($intRate[0].getElementsByTagName("tmap:taxiFare")[0].childNodes[0].nodeValue)*0.75
+            document.getElementById("drive_time").value = ($intRate[0].getElementsByTagName("tmap:totalTime")[0].childNodes[0].nodeValue/60).toFixed(0);
+            var price = $intRate[0].getElementsByTagName("tmap:taxiFare")[0].childNodes[0].nodeValue;
+            price = price.toString();
+            document.getElementById("taxi_price").value = price.substr(-4, 1)+','+price.substr(-3)+' 원';
+
+            var price = ($intRate[0].getElementsByTagName("tmap:taxiFare")[0].childNodes[0].nodeValue)*0.75;
+            price = price.toString();
+            document.getElementById("withcar_price").value = price.substr(-4, 1)+','+price.substr(-3)+' 원';
 
             $("#result").text(tDistance+tTime+tFare+taxiFare);
 
@@ -83,5 +88,4 @@ function initTmap(){
 
 $(document).ready(function(){
 initTmap();
-console.log('re');
 });
