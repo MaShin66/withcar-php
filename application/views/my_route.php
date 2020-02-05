@@ -45,7 +45,10 @@
                     <br>
                     <div class="center_style">
                         <div>출발 시간 <?=$data->ride_time;?> </div>
-                        <div><i class="fas fa-coins icon_style"></i> <?=$data->withcar_price;?> 원</div>
+                        <div><i class="fas fa-coins icon_style"></i>
+                            <?php $price = $data->withcar_price;
+                            echo substr($price, 0, -3).','.substr($price, -3).' 원';?>
+                        </div>
                         <div>결제방법:
                         <?php
                             if($data->payment === 'TRANSFER') {

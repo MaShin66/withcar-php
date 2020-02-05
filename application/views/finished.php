@@ -55,7 +55,10 @@
         <div>운행 거리 <?=$return_value->drive_distance?> km</div>
         <div>운행 시간 <?=$return_value->drive_time?> 분</div>
         <br>
-        <div>결제 금액 <?=$return_value->withcar_price?> 원</div>
+        <div>결제 금액
+            <?php $price = $return_value->withcar_price;
+            echo substr($price, 0, -3).','.substr($price, -3).' 원';?>
+        </div>
         <div>결제방법
             <?php
             if($return_value->payment === 'TRANSFER') {

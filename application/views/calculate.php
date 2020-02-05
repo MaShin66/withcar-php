@@ -13,8 +13,9 @@
     text-align: center;
 }
 
-.height_div {
+.title_div {
     height: 50px;
+    text-align: center;
 }
 
 .status_style {
@@ -26,19 +27,23 @@
 }
 </style>
 
-<div>미결제 금액</div>
-<?php
-    $price = $return_unpiad_price->withcar_price;
-    echo substr($price, 0, -3).','.substr($price, -3).' 원';
-?>
-
-<div>미정산 금액</div>
-<?php
-    
-?>
-
-<div>누적 정산 금액</div>
-<?php
-    $price = $return_finished_price->withcar_price;
-    echo substr($price, 0, -3).','.substr($price, -3).' 원';
-?>
+<div class="div_style">
+    <div class="title_div">정산 내역</div>
+    <br>
+    <div>미결제 금액</div>
+    <?php
+        $price = $return_unpiad_price->withcar_price;
+        echo substr($price, 0, -3).','.substr($price, -3).' 원';
+    ?>
+    <br><br>
+    <div>미정산 금액</div>
+    <?php
+        
+    ?>
+    <br>
+    <div>누적 정산 금액</div>
+    <?php
+        $price = $return_finished_price->withcar_price;
+        echo substr($price, 0, -3).','.substr($price, -3).' 원';
+    ?>
+</div>
