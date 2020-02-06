@@ -60,8 +60,8 @@
                 <span>결제 방법</span>
                 <span>
                     <select name="payment" id="payment">
-                        <option value="TRANSFER" selected>계좌이체</option>
-                        <option value="CASH">현금</option>
+                        <option value="TRANSFER" selected>위드카에게 계좌이체</option>
+                        <option value="CASH">드라이버에게 현금 계산</option>
                     </select>
                 </span>
             </div>

@@ -42,6 +42,7 @@
         <div>은행 <?=$return_user_value->bank?></div>
         <div>예금주 <?=$return_user_value->account_holder?></div>
         <div>계좌번호 <?=$return_user_value->account?></div>
+        <div><a href="../edit_account/<?=$return_user_value->user_id?>">계좌 정보 변경하기</a></div>
     <?php
     }
 ?>

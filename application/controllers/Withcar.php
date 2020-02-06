@@ -208,10 +208,14 @@ class Withcar extends CI_Controller {
         } else {
             $return_ride_value = $this->Withcar_model->get_row('ride', 'ride_id', $ride_id);
             $return_user_value = $this->Withcar_model->get_row('user', 'user_id', $return_ride_value->driver_id);
+            $return_admin_value = $this->Withcar_model->get_row('admin', true, true);
 
             $session_data = $this->session->userdata();
             $this->load->view('section/head', array('session_data' => $session_data));
-            $this->load->view('payment', array('return_ride_value' => $return_ride_value, 'return_user_value' => $return_user_value));
+            $this->load->view('payment', array(
+                'return_ride_value' => $return_ride_value, 
+                'return_user_value' => $return_user_value,
+                'return_admin_value' => $return_admin_value));
             $this->load->view('section/footer');
         }
     }
@@ -294,14 +298,48 @@ class Withcar extends CI_Controller {
             echo '<script>alert("로그인이 필요합니다");</script>';
             redirect('/withcar/login', 'refresh');
         } else {
+            $return_user_value = $this->Withcar_model->get_row('user', 'user_id', $user_id);
             $return_unpiad_price = $this->Withcar_model->price_unpiad_get('ride', 'driver_id', $user_id);
             $return_finished_price = $this->Withcar_model->price_finished_get('ride', 'driver_id', $user_id);
         
             $session_data = $this->session->userdata();
             $this->load->view('section/head', array('session_data' => $session_data));
-            $this->load->view('calculate', array('return_unpiad_price' => $return_unpiad_price, 'return_finished_price' => $return_finished_price));
+            $this->load->view('calculate', array(
+                'return_unpiad_price' => $return_unpiad_price,
+                'return_finished_price' => $return_finished_price,
+                'return_user_value' => $return_user_value));
             $this->load->view('section/footer');
         }
+    }
+
+    function edit_account($user_id) {
+        $return_user_value = $this->Withcar_model->get_row('user', 'user_id', $user_id);
+
+        $session_data = $this->session->userdata();
+        $this->load->view('section/head', array('session_data' => $session_data));
+        $this->load->view('edit_account', array('return_user_value' => $return_user_value));
+        $this->load->view('section/footer');
+    }
+
+    function edit_account2() {
+        $user_id = $this->session->userdata('user_id');        
+        $input_data = $this->input->post();
+        $return_value = $this->Withcar_model->update_data2('user_id', $user_id, $input_data, 'user');
+        if($return_value) {
+            echo '<script>alert("계좌정보가 되었습니다.")</script>';
+            redirect('withcar', 'refresh');
+        } else {
+            echo '<script>alert("오류로 인해 계좌정보 변경에 실패했습니다.")</script>';
+        }
+
+    }
+
+    function test() {
+        $this->load->view('test');
+    }
+
+    function kakaoPay() {
+        $this->load->view('kakaoPay');
     }
 
 

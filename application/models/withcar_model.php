@@ -37,8 +37,7 @@ class Withcar_model extends CI_Model {
 	}
 
 	function update_data2($where, $where_data, $data, $table) {
-		if($table === 'user') {
-			// driver_id 를 유일값으로 못하다보니 user_id 의 값과 같은 것으로 넣기
+		if($table === 'user') { // driver_id 를 유일값으로 못하다보니 user_id 의 값과 같은 것으로 넣기
 			$data['driver_id'] = $where_data;
 		}
 		$this->db->where($where, $where_data);
