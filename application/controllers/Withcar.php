@@ -97,21 +97,31 @@ class Withcar extends CI_Controller {
     }
 
     function ridelist() {
-        if($this->input->post()) {
-            $ride_info = $this->input->post();
-            $this->Withcar_model->insert('ride', $ride_info);
-            echo '<script>alert("등록이 완료되었습니다.")</script>';
-        } 
-
-        $return_ridelist = $this->Withcar_model->get_result('ride', 'status', 'REQUESTING');
-        $session_data = $this->session->userdata();
-        $this->load->view('section/head', array('session_data' => $session_data));
-        $this->load->view('ridelist', array('return_ridelist' => $return_ridelist));
-        $this->load->view('section/footer');
+        if(!$this->session->userdata('is_login')) {
+            echo '<script>alert("로그인이 필요합니다");</script>';
+            redirect('/withcar/login', 'refresh');
+        } else {
+            if($this->input->post()) {
+                $ride_info = $this->input->post();
+                $this->Withcar_model->insert('ride', $ride_info);
+                echo '<script>alert("등록이 완료되었습니다.")</script>';
+            } 
+    
+            $return_ridelist = $this->Withcar_model->get_result('ride', 'status', 'REQUESTING');
+            $session_data = $this->session->userdata();
+            $this->load->view('section/head', array('session_data' => $session_data));
+            $this->load->view('ridelist', array('return_ridelist' => $return_ridelist));
+            $this->load->view('section/footer');
+        }
+        
     }
 
     function ride($ride_id) {
-        $get_value = $this->Withcar_model->get_row('ride', 'ride_id', $ride_id);
+        if(!$this->session->userdata('is_login')) {
+            echo '<script>alert("로그인이 필요합니다");</script>';
+            redirect('/withcar/login', 'refresh');
+        } else {
+            $get_value = $this->Withcar_model->get_row('ride', 'ride_id', $ride_id);
         if($get_value->status === 'UNPAID') {
             $return_value = $this->Withcar_model->update_data('ride_id', $ride_id, 'status', 'UNPAID', 'ride');
 
@@ -126,6 +136,7 @@ class Withcar extends CI_Controller {
         $this->load->view('section/head', array('session_data' => $session_data));
         $this->load->view('ride', array('return_ride_value' => $return_ride_value));
         $this->load->view('section/footer');
+        }
     }
 
     function riding($ride_id) {
@@ -144,16 +155,21 @@ class Withcar extends CI_Controller {
     }
 
     function my_route($user_id) {
-        if($this->session->userdata('is_driver') === '1') {
-            $return_value = $this->Withcar_model->get_result('ride', 'driver_id', $user_id);
-        } else if ($this->session->userdata('is_driver') === '0') {
-            $return_value = $this->Withcar_model->get_result('ride', 'user_id', $user_id);
+        if(!$this->session->userdata('is_login')) {
+            echo '<script>alert("로그인이 필요합니다");</script>';
+            redirect('/withcar/login', 'refresh');
+        } else {
+            if($this->session->userdata('is_driver') === '1') {
+                $return_value = $this->Withcar_model->get_result('ride', 'driver_id', $user_id);
+            } else if ($this->session->userdata('is_driver') === '0') {
+                $return_value = $this->Withcar_model->get_result('ride', 'user_id', $user_id);
+            }
+            
+            $session_data = $this->session->userdata();
+            $this->load->view('section/head', array('session_data' => $session_data));
+            $this->load->view('my_route', array('return_value' => $return_value));
+            $this->load->view('section/footer');
         }
-        
-        $session_data = $this->session->userdata();
-        $this->load->view('section/head', array('session_data' => $session_data));
-        $this->load->view('my_route', array('return_value' => $return_value));
-        $this->load->view('section/footer');
     }
 
     function onroute($ride_id) {
@@ -171,7 +187,6 @@ class Withcar extends CI_Controller {
         $this->load->view('section/footer');
     }
     
-    // 상대가 결제해도 finished 페이지에서 새로고침하면 또 UNPAID 로 바뀌므로 수정
     function finished($ride_id) {
         $get_value = $this->Withcar_model->get_row('ride', 'ride_id', $ride_id);
         if($get_value->status === 'UNPAID') {
@@ -187,13 +202,18 @@ class Withcar extends CI_Controller {
     }
 
     function payment($ride_id) {
-        $return_ride_value = $this->Withcar_model->get_row('ride', 'ride_id', $ride_id);
-        $return_user_value = $this->Withcar_model->get_row('user', 'user_id', $return_ride_value->driver_id);
+        if(!$this->session->userdata('is_login')) {
+            echo '<script>alert("로그인이 필요합니다");</script>';
+            redirect('/withcar/login', 'refresh');
+        } else {
+            $return_ride_value = $this->Withcar_model->get_row('ride', 'ride_id', $ride_id);
+            $return_user_value = $this->Withcar_model->get_row('user', 'user_id', $return_ride_value->driver_id);
 
-        $session_data = $this->session->userdata();
-        $this->load->view('section/head', array('session_data' => $session_data));
-        $this->load->view('payment', array('return_ride_value' => $return_ride_value, 'return_user_value' => $return_user_value));
-        $this->load->view('section/footer');
+            $session_data = $this->session->userdata();
+            $this->load->view('section/head', array('session_data' => $session_data));
+            $this->load->view('payment', array('return_ride_value' => $return_ride_value, 'return_user_value' => $return_user_value));
+            $this->load->view('section/footer');
+        }
     }
     
     function ride_cancel($ride_id) {
@@ -204,10 +224,15 @@ class Withcar extends CI_Controller {
     }
 
     function driver_enroll($user_id) {
-        $session_data = $this->session->userdata();
-        $this->load->view('section/head', array('session_data' => $session_data));
-        $this->load->view('driver_enroll', array('user_id' => $user_id));
-        $this->load->view('section/footer');
+        if(!$this->session->userdata('is_login')) {
+            echo '<script>alert("로그인이 필요합니다");</script>';
+            redirect('/withcar/login', 'refresh');
+        } else {
+            $session_data = $this->session->userdata();
+            $this->load->view('section/head', array('session_data' => $session_data));
+            $this->load->view('driver_enroll', array('user_id' => $user_id));
+            $this->load->view('section/footer');
+        }
     }
 
     function driver_enroll2($user_id) {
@@ -223,21 +248,31 @@ class Withcar extends CI_Controller {
     }
     
     function editprofile($user_id) {
-        $return_user_value = $this->Withcar_model->get_row('user', 'user_id', $user_id);
+        if(!$this->session->userdata('is_login')) {
+            echo '<script>alert("로그인이 필요합니다");</script>';
+            redirect('/withcar/login', 'refresh');
+        } else {
+            $return_user_value = $this->Withcar_model->get_row('user', 'user_id', $user_id);
 
-        $session_data = $this->session->userdata();
-        $this->load->view('section/head', array('session_data' => $session_data));
-        $this->load->view('editprofile', array('return_user_value' => $return_user_value));
-        $this->load->view('section/footer');
+            $session_data = $this->session->userdata();
+            $this->load->view('section/head', array('session_data' => $session_data));
+            $this->load->view('editprofile', array('return_user_value' => $return_user_value));
+            $this->load->view('section/footer');
+        }
     }
 
     function changepwd($user_id) {
-        $return_user_value = $this->Withcar_model->get_row('user', 'user_id', $user_id);
+        if(!$this->session->userdata('is_login')) {
+            echo '<script>alert("로그인이 필요합니다");</script>';
+            redirect('/withcar/login', 'refresh');
+        } else {
+            $return_user_value = $this->Withcar_model->get_row('user', 'user_id', $user_id);
 
-        $session_data = $this->session->userdata();
-        $this->load->view('section/head', array('session_data' => $session_data));
-        $this->load->view('changepwd', array('return_user_value' => $return_user_value));
-        $this->load->view('section/footer');
+            $session_data = $this->session->userdata();
+            $this->load->view('section/head', array('session_data' => $session_data));
+            $this->load->view('changepwd', array('return_user_value' => $return_user_value));
+            $this->load->view('section/footer');
+        }
     }
 
     function chagepwd2() {
@@ -255,14 +290,18 @@ class Withcar extends CI_Controller {
     }
 
     function calculate($user_id) {
-        // $return_ride_value = $this->Withcar_model->get_result('ride', 'driver_id', $user_id);
-        $return_unpiad_price = $this->Withcar_model->price_unpiad_get('ride', 'driver_id', $user_id);
-        $return_finished_price = $this->Withcar_model->price_finished_get('ride', 'driver_id', $user_id);
+        if(!$this->session->userdata('is_login')) {
+            echo '<script>alert("로그인이 필요합니다");</script>';
+            redirect('/withcar/login', 'refresh');
+        } else {
+            $return_unpiad_price = $this->Withcar_model->price_unpiad_get('ride', 'driver_id', $user_id);
+            $return_finished_price = $this->Withcar_model->price_finished_get('ride', 'driver_id', $user_id);
         
-        $session_data = $this->session->userdata();
-        $this->load->view('section/head', array('session_data' => $session_data));
-        $this->load->view('calculate', array('return_unpiad_price' => $return_unpiad_price, 'return_finished_price' => $return_finished_price));
-        $this->load->view('section/footer');
+            $session_data = $this->session->userdata();
+            $this->load->view('section/head', array('session_data' => $session_data));
+            $this->load->view('calculate', array('return_unpiad_price' => $return_unpiad_price, 'return_finished_price' => $return_finished_price));
+            $this->load->view('section/footer');
+        }
     }
 
 

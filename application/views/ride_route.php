@@ -7,7 +7,7 @@
     border-radius: 8px;
     padding: 16px;
     font-size: 2rem;
-    margin-top: 8%;
+    margin-top: 20%;
 }
 
 .submit_style {

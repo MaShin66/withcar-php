@@ -19,8 +19,8 @@
     </div>
 </div>
 
-<form action="withcar/ride_route" method="post">
-    <div class="form_div">
+<div class="form_div">
+    <form action="withcar/ride_route" method="post">
         <div class="place_div">출발지<input type="text" id="depature" class="address_style" name="depature" required readonly></div>
         <input type="hidden" id="depature_latitude" name="depature_latitude">
         <input type="hidden" id="depature_longitude" name="depature_longitude">
@@ -37,9 +37,8 @@
         <div class="place_div submit_style">
             <input type="submit" class="submit_in_style" value="예상 경로와 금액 확인">
         </div>
-    </div>
-</form>
-
+    </form>
+</div>
 
 <script src="../../static/js/kakaomap_api.js"></script>
 
