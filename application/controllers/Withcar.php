@@ -334,12 +334,8 @@ class Withcar extends CI_Controller {
 
     }
 
-    function test() {
-        $this->load->view('test');
-    }
-
-    function kakaoPay() {
-        $this->load->view('kakaoPay');
+    function php_socket() {
+        $this->load->view('chat/php-socket');
     }
 
 

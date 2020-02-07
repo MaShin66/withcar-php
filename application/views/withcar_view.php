@@ -2,6 +2,13 @@
 <link rel="stylesheet" type="text/css" href="../../static/css/kakaomap_api.css">
 <link rel="stylesheet" type="text/css" href="../../static/css/withcar_view.css">
 
+<style>
+.tmp_style {
+    width: 100%;
+    height: 36px;
+}
+</style>
+
 <div class="map_wrap">
     <div id="map" class="map_style"></div>
     <div id="menu_wrap" class="bg_white">
@@ -18,9 +25,9 @@
         <div id="pagination"></div>
     </div>
 </div>
-
+<div class="tmp_style"></div>
 <div class="form_div">
-    <form action="withcar/ride_route" method="post">
+    <form action="<?=site_url()?>/withcar/ride_route" method="post">
         <div class="place_div">출발지<input type="text" id="depature" class="address_style" name="depature" required readonly></div>
         <input type="hidden" id="depature_latitude" name="depature_latitude">
         <input type="hidden" id="depature_longitude" name="depature_longitude">
@@ -49,3 +56,21 @@
     document.getElementById('date_value').value = timezoneDate.toISOString().slice(0, 10);
     document.getElementById('time_value').value = timezoneDate.toISOString().slice(11, 16);
 </script>
+
+<script>
+    var uAgent = navigator.userAgent.toLowerCase(); // 아래는 모바일 장치들의 모바일 페이지 접속을위한 스크립트
+    var mobilePhones = new Array('iphone', 'ipod', 'ipad', 'android', 'blackberry', 'windows ce','nokia', 'webos', 'opera mini', 'sonyericsson', 'opera mobi', 'iemobile');
+    console.log(uAgent);
+    
+    // for (var i = 0; i < mobilePhones.length; i++) {
+    //     if (uAgent.indexOf(mobilePhones[i]) != -1) { 
+    //         location.href="/mobile/home/main.do";
+    //         }
+    //     };
+</script>
+    
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="../../static/js/detectmobilebrowser.js"></script>
+    <script>
+        console.log(jQuery.browser.mobile);
+    </script>

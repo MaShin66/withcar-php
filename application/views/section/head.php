@@ -11,11 +11,18 @@
 
     <title>WithCar</title>
 
+    <style>
+    .main_title {
+        padding: 8px 18px;
+        font-size: 16px;
+    }
+    </style>
+
 </head>
 <body style="margin: 0; padding: 0;">
 
 <div class="menu_style" onclick="openNav()">&#9776; 메뉴</div>
-<div class="logo_style"><a href=<?=site_url()?>/withcar class="btn btn-primary">WithCar</a></div>
+<div class="logo_style"><a href=<?=site_url()?>/withcar class="btn btn-primary main_title">WithCar</a></div>
 <div class="head_right_style"></div>
 
 <div id="mySidenav" class="sidenav">
