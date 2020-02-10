@@ -334,8 +334,11 @@ class Withcar extends CI_Controller {
 
     }
 
-    function php_socket() {
-        $this->load->view('chat/php-socket');
+    function contact() {
+        $session_data = $this->session->userdata();
+        $this->load->view('section/head', array('session_data' => $session_data));
+        $this->load->view('contact');
+        $this->load->view('section/footer');
     }
 
 

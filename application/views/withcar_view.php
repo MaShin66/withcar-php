@@ -57,20 +57,14 @@
     document.getElementById('time_value').value = timezoneDate.toISOString().slice(11, 16);
 </script>
 
-<script>
+<!-- <script>
     var uAgent = navigator.userAgent.toLowerCase(); // 아래는 모바일 장치들의 모바일 페이지 접속을위한 스크립트
     var mobilePhones = new Array('iphone', 'ipod', 'ipad', 'android', 'blackberry', 'windows ce','nokia', 'webos', 'opera mini', 'sonyericsson', 'opera mobi', 'iemobile');
     console.log(uAgent);
     
-    // for (var i = 0; i < mobilePhones.length; i++) {
-    //     if (uAgent.indexOf(mobilePhones[i]) != -1) { 
-    //         location.href="/mobile/home/main.do";
-    //         }
-    //     };
-</script>
-    
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="../../static/js/detectmobilebrowser.js"></script>
-    <script>
-        console.log(jQuery.browser.mobile);
-    </script>
+    for (var i = 0; i < mobilePhones.length; i++) {
+        if (uAgent.indexOf(mobilePhones[i]) != -1) { 
+            console.log(mobilePhones[i]);
+        };
+    };
+</script> -->

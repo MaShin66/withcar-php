@@ -42,10 +42,7 @@
     ?>
     <br>
     <div>누적 정산 금액</div>
-    <?php
-        $price = $return_finished_price->withcar_price;
-        echo substr($price, 0, -3).','.substr($price, -3).' 원';
-    ?>
+    <div><?=$return_finished_price->withcar_price?></div>
     <br><br>
     <div>정산은 매주 일요일에 등록한 계좌로 수수료 10%를 제외한 금액이 입금됩니다.</div>
     <br>

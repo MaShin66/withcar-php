@@ -62,10 +62,7 @@
     <div>운행 시간 <?=$return_value->drive_time?> 분</div>
     <div>출발 시간 <?=$return_value->ride_time?> 분</div>
     <br>
-    <div><i class="fas fa-coins icon_style"></i>
-        <?php $price = $return_value->withcar_price;
-        echo substr($price, 0, -3).','.substr($price, -3).' 원';?>
-    </div>
+    <div><i class="fas fa-coins icon_style"></i> <?=$return_value->withcar_price?></div>
     <br>
 
 <?php

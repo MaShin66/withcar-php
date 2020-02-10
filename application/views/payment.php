@@ -22,10 +22,7 @@
             <div>은행: <?=$return_admin_value->bank?></div>
             <div>계좌번호: <?=$return_admin_value->account?></div>
             <div>예금주: <?=$return_admin_value->account_holder?></div>
-            <div>금액:
-                <?php $price = $return_ride_value->withcar_price;
-                echo substr($price, 0, -3).','.substr($price, -3).' 원';?>
-            </div>
+            <div>금액: <?=$return_ride_value->withcar_price?></div>
         <?php
         }
     ?>
