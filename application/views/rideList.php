@@ -3,7 +3,7 @@
 
 <div>
     <div class="head_style">
-        <div class="title_style">전체 운행 목록</div>
+        <div class="title_style">대기중인 운행</div>
         <br>
         <div class="div_style">
             <a href="../withcar" class="a_style">홈으로</a>

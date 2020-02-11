@@ -75,7 +75,7 @@
     <br><br>
     <?php
         if($this->session->userdata('is_driver') === '1' && $return_ride_value->status === 'REQUESTING') { ?>
-            <div class="cancel_style"><a href="../riding/<?=$return_ride_value->ride_id?>">탑승 시키기</a></div>
+            <div class="cancel_style"><a href="../riding/<?=$return_ride_value->ride_id?>">운행 예약하기</a></div>
         <?php
         } else if($this->session->userdata('is_driver') === '0' 
             && ($this->session->userdata('user_id') === $return_ride_value->user_id)

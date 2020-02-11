@@ -140,7 +140,7 @@ class Withcar extends CI_Controller {
     }
 
     function riding($ride_id) {
-        echo '<script>alert("탑승을 수락했습니다")</script>';
+        echo '<script>alert("운행을 예약했습니다")</script>';
         // 유저쪽에서 신청한 ride의 status가 ACCEPTED 로 변경됐을 때 알림 필요
         $return_value = $this->Withcar_model->update_data('ride_id', $ride_id, 'status', 'ACCEPTED', 'ride'); 
         $data['status'] = 'ACCEPTED';
@@ -160,9 +160,9 @@ class Withcar extends CI_Controller {
             redirect('/withcar/login', 'refresh');
         } else {
             if($this->session->userdata('is_driver') === '1') {
-                $return_value = $this->Withcar_model->get_result('ride', 'driver_id', $user_id);
+                $return_value = $this->Withcar_model->get_result2('ride', 'driver_id', $user_id, 'status', 'REQUESTING');
             } else if ($this->session->userdata('is_driver') === '0') {
-                $return_value = $this->Withcar_model->get_result('ride', 'user_id', $user_id);
+                $return_value = $this->Withcar_model->get_result2('ride', 'user_id', $user_id, 'status', 'REQUESTING');
             }
             
             $session_data = $this->session->userdata();
@@ -189,13 +189,13 @@ class Withcar extends CI_Controller {
     
     function finished($ride_id) {
         $get_value = $this->Withcar_model->get_row('ride', 'ride_id', $ride_id);
-        if($get_value->status === 'UNPAID') {
-            $return_value = $this->Withcar_model->update_data('ride_id', $ride_id, 'status', 'UNPAID', 'ride');
-        } else if($get_value->status === 'FINISHED') {
+        if($get_value->status === 'FINISHED') {
             echo '<script>alert("결제가 완료되었습니다")</script>';
+        } else {
+            $return_value = $this->Withcar_model->update_data('ride_id', $ride_id, 'status', 'UNPAID', 'ride');    
         }
-
         $session_data = $this->session->userdata();
+
         $this->load->view('section/head', array('session_data' => $session_data));
         $this->load->view('finished', array('return_value' => $get_value));
         $this->load->view('section/footer');

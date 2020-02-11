@@ -43,26 +43,28 @@
     float: left;
     margin: 12px;
     display: inline-block;
+    width: 30%
 }
 
 .logo_style {
     text-align: center;
     display: inline-block;
-    width: 40%;
+    width: 30%;
     margin: 12px;
+    height: 37px;
 }
 
 .logo_style img {
   width: 100%;
 }
 
-.head_right_style {
-    width: 75px;
+/* .head_right_style {
+    width: 30%;
     height: 37px;
     display: inline-block;
     float: right;
     margin: 12px;
-}
+} */
 
 .name_style {
   color: cornflowerblue;

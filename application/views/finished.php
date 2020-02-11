@@ -68,7 +68,7 @@
             ?>
             <?=$payment?>
         </div>
-
+        <br>
         <div>
         <?php 
             if($return_value->status === 'FINISHED') { ?>
@@ -83,10 +83,14 @@
     <?php
         if($this->session->userdata('is_driver') === '1') { ?>
         <?php
-        } else if($this->session->userdata('is_driver') === '0') { ?> 
-            <br>
-            <div class="cancel_style"><a href="../payment/<?=$return_value->ride_id?>">결제하기</a></div>
-        <?php
+        } else if($this->session->userdata('is_driver') === '0') {
+            if($return_value->payment === 'TRANSFER') { ?>
+                <div class="cancel_style"><a href="../payment/<?=$return_value->ride_id?>">계좌이체 정보</a></div>
+            <?php
+            } else if($return_value->payment === 'CASH') { ?>
+                <div class="cancel_style"><a href="../is_pay/<?=$return_value->ride_id?>">현금 계산 완료</a></div>
+            <?php
+            }
         }
     ?>
 </div>

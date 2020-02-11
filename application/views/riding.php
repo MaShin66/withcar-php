@@ -19,29 +19,21 @@
 
 .title_style {
     text-align: center;
+    font-size: 3.6rem;
+}
+
+.subtitle_style {
+    text-align: center;
 }
 </style>
 
 <div class="div_style">
     <div class="title_style">
         <?php
-            if($this->session->userdata('is_driver') === '1') { ?>
-                <div>내가 수락한<br>탑승자의 운행 정보</div>
-            <?php
-            } else if($this->session->userdata('is_driver') === '0') { ?>
-                <div>내가 신청한<br>운행 정보</div>
-            <?php
-            } 
-        ?>
-    </div>
-
-    <br>
-    <div>
-        <?php
             if($return_value->status === 'REQUESTING') {
                 $stats = '요청 대기중';
             } else if($return_value->status === 'ACCEPTED') {
-                $stats = '요청 수락됨';
+                $stats = '운행 대기중';
             } else if($return_value->status === 'ONROUTE') {
                 $stats = '운행중';
             } else if($return_value->status === 'FINISHE') {
@@ -52,9 +44,26 @@
         ?>
         <?=$stats?>
     </div>
-    <div><i class="far fa-user icon_style"></i> <?=$return_value->user_name?></div>
-    <div><i class="fas fa-mobile-alt icon_style"></i> <?=$return_value->user_phone?></div>
     <br>
+    <div class="subtitle_style">
+        <?php
+            if($this->session->userdata('is_driver') === '1') { ?>
+                <div>탑승자 운행 정보</div>
+                <br>
+                <div><i class="far fa-user icon_style"></i> <?=$return_value->user_name?></div>
+                <div><i class="fas fa-mobile-alt icon_style"></i> <?=$return_value->user_phone?></div>
+                <br>
+            <?php
+            } else if($this->session->userdata('is_driver') === '0') { ?>
+                <div>운전자 운행 정보</div>
+                <br>
+                <div><i class="far fa-user icon_style"></i> <?=$return_value->driver_name?></div>
+                <div><i class="fas fa-mobile-alt icon_style"></i> <?=$return_value->driver_phone?></div>
+                <br>
+            <?php
+            } 
+        ?>
+    </div>
     <div><i class="fas fa-sign-out-alt icon_style"></i> <?=$return_value->depature?></div>
     <div><i class="fas fa-sign-in-alt icon_style"></i> <?=$return_value->destination?></div>
     <br>

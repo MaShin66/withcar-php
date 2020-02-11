@@ -3,7 +3,8 @@
 
 <div>
     <div class="head_style">
-        <div class="title_style">나의 운행 목록</div>
+        <br>
+        <div class="title_style">모든 나의 운행</div>
         <br>
         <div class="div_style">
             <a href=<?=site_url()?>/withcar class="a_style">홈으로</a>
@@ -60,7 +61,8 @@
                         </div>
                         <br>
                         <div><a href="../ride/<?=$data->ride_id?>">자세히 보기</a></div>
-                        <div>운행 생성 날짜 <?=$data->created;?></div>
+                        <br>
+                        <div>운행 생성 날짜<br><?=$data->created;?></div>
                     </div>                    
                     
                 </div>

@@ -26,7 +26,7 @@
 
 <div class="menu_style" onclick="openNav()">&#9776; 메뉴</div>
 <!-- <div class="logo_style"><a href=<?=site_url()?>/withcar class="btn btn-primary main_title">WithCar</a></div> -->
-<div class="logo_style"><a href=<?=site_url()?>/withcar><img src="../../static/img/mini_logo.jpeg" alt=""></a></div>
+<div class="logo_style"><a href=<?=site_url()?>/withcar><img src=<?=base_url()?>/static/img/mini_logo.jpeg></a></div>
 <div class="head_right_style"></div>
 
 <div id="mySidenav" class="sidenav">
@@ -35,14 +35,14 @@
     if($this->session->userdata('is_login') === true) { ?>
         <div class="name_style"><h1><a style="color: cornflowerblue;" href=<?=site_url()?>/withcar/editprofile/<?=$session_data['user_id']?>><?=$session_data['user_name']?> <i class="fas fa-user-edit"></i></a></h1></div>
         <div><h1><a href=<?=site_url()?>/withcar/logout>로그아웃</a></h1></div>
-        <div><h1><a href=<?=site_url()?>/withcar/ridelist>대기중인 경로</a></h1></div>
     <?php
         if($this->session->userdata('is_driver') === '1') { ?>
-            <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>내가 운행한 경로</a></h1></div>
+            <div><h1><a href=<?=site_url()?>/withcar/ridelist>대기중인 운행</a></h1></div>
+            <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>모든 나의 운행</a></h1></div>
         <?php
-        } else { ?>
-            <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>내가 등록한 경로</a></h1></div>
-            <div><h1><a href=<?=site_url()?>/withcar/driver_enroll/<?=$session_data['user_id']?>>운전자 등록하기</a></h1></div>
+        } else if($this->session->userdata('is_driver') === '0') { ?>
+            <div><h1><a href=<?=site_url()?>/withcar/ridelist>대기중인 나의 운행</a></h1></div>
+            <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>모든 나의 운행</a></h1></div>
         <?php
         }
     } else { ?>
