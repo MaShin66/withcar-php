@@ -103,6 +103,11 @@ class Withcar extends CI_Controller {
         } else {
             if($this->input->post()) {
                 $ride_info = $this->input->post();
+                if($ride_info['payment'] === 'CASH') {
+                    $ride_info['withcar_price'] = (int)preg_replace("/[^\d]/i", "", $ride_info['withcar_price']);
+                    $ride_info['withcar_price'] = round($ride_info['withcar_price'], -2);
+                    $ride_info['withcar_price'] = substr($ride_info['withcar_price'], -4, 1).','.substr($ride_info['withcar_price'], -3).' 원';
+                }
                 $this->Withcar_model->insert('ride', $ride_info);
                 echo '<script>alert("등록이 완료되었습니다.")</script>';
             } 
@@ -338,6 +343,24 @@ class Withcar extends CI_Controller {
         $session_data = $this->session->userdata();
         $this->load->view('section/head', array('session_data' => $session_data));
         $this->load->view('contact');
+        $this->load->view('section/footer');
+    }
+
+    function total_user() {
+        $session_data = $this->session->userdata();
+        if($session_data['user_id'] === '1') {    
+            $this->load->view('section/head', array('session_data' => $session_data));
+            $this->load->view('total_user');
+            $this->load->view('section/footer');
+        } else {
+            redirect('withcar', 'refresh');
+        }
+    }
+
+    function total_calculate() {
+        $session_data = $this->session->userdata();
+        $this->load->view('section/head', array('session_data' => $session_data));
+        $this->load->view('');
         $this->load->view('section/footer');
     }
 
