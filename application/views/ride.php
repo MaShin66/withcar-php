@@ -24,7 +24,23 @@
 .icon_style {
     font-size: 2rem;
 }
+
+#Tmap_Map_7_Tmap_ViewPort {
+    z-index: 1;
+}
 </style>
+
+<script src="https://api2.sktelecom.com/tmap/js?version=1&format=javascript&appKey=da7b106e-e761-42bd-948c-e1dd2a1d66d5"></script>        
+<script type="text/javascript">
+    var depature_latitude = <?=$return_ride_value->depature_latitude?>;
+    var depature_longitude = <?=$return_ride_value->depature_longitude?>;
+    var destination_latitude = <?=$return_ride_value->destination_latitude?>;
+    var destination_longitude = <?=$return_ride_value->destination_longitude?>;
+</script>
+<script src="../../../static/js/tmap_api2.js"></script>
+
+<div id="map_div">
+</div>
 
 <?php
     if($return_ride_value->status === 'ACCEPTED'){

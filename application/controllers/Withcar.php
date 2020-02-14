@@ -97,13 +97,13 @@ class Withcar extends CI_Controller {
     }
 
     function ridelist() {
-        if(!$this->session->userdata('is_login')) {
+        if(!$this->session->userdata('is_login')) { // 로그인이 안됐다면 로그인 페이지로 이동
             echo '<script>alert("로그인이 필요합니다");</script>';
             redirect('/withcar/login', 'refresh');
-        } else {
+        } else { // 로그인이 됐다면 아래 작업 시작
             if($this->input->post()) {
                 $ride_info = $this->input->post();
-                if($ride_info['payment'] === 'CASH') {
+                if($ride_info['payment'] === 'CASH') { // 현금같은 경우 십원 단위는 버려야하므로 십의자리에서 반올림해서 등록
                     $ride_info['withcar_price'] = (int)preg_replace("/[^\d]/i", "", $ride_info['withcar_price']);
                     $ride_info['withcar_price'] = round($ride_info['withcar_price'], -2);
                     $ride_info['withcar_price'] = substr($ride_info['withcar_price'], -4, 1).','.substr($ride_info['withcar_price'], -3).' 원';
@@ -111,8 +111,13 @@ class Withcar extends CI_Controller {
                 $this->Withcar_model->insert('ride', $ride_info);
                 echo '<script>alert("등록이 완료되었습니다.")</script>';
             } 
-    
-            $return_ridelist = $this->Withcar_model->get_result('ride', 'status', 'REQUESTING');
+
+            if($this->session->userdata('is_driver') === '1') { // 드라이버라면 모든 대기중인 운행 가져오고
+                $return_ridelist = $this->Withcar_model->get_result('ride', 'status', 'REQUESTING');
+            } else if($this->session->userdata('is_driver') === '0') { // 운행자라면 자신의 운행만 가져오기
+                $return_ridelist = $this->Withcar_model->get_self_ride($this->session->userdata('user_id'));
+            }
+            
             $session_data = $this->session->userdata();
             $this->load->view('section/head', array('session_data' => $session_data));
             $this->load->view('ridelist', array('return_ridelist' => $return_ridelist));
@@ -125,10 +130,11 @@ class Withcar extends CI_Controller {
         if(!$this->session->userdata('is_login')) {
             echo '<script>alert("로그인이 필요합니다");</script>';
             redirect('/withcar/login', 'refresh');
-        } else {
+        } else { // 로그인이 됐다면 진행
             $get_value = $this->Withcar_model->get_row('ride', 'ride_id', $ride_id);
         if($get_value->status === 'UNPAID') {
             $return_value = $this->Withcar_model->update_data('ride_id', $ride_id, 'status', 'UNPAID', 'ride');
+            // 굳이 있을 필요가..?
 
             $session_data = $this->session->userdata();
             $this->load->view('section/head', array('session_data' => $session_data));
@@ -348,9 +354,10 @@ class Withcar extends CI_Controller {
 
     function total_user() {
         $session_data = $this->session->userdata();
-        if($session_data['user_id'] === '1') {    
+        if($session_data['user_id'] === '1') {  
+            $return_user_value = $this->Withcar_model->get_result('user', true, true);
             $this->load->view('section/head', array('session_data' => $session_data));
-            $this->load->view('total_user');
+            $this->load->view('total_user', array('return_user_value' => $return_user_value));
             $this->load->view('section/footer');
         } else {
             redirect('withcar', 'refresh');
@@ -359,9 +366,13 @@ class Withcar extends CI_Controller {
 
     function total_calculate() {
         $session_data = $this->session->userdata();
-        $this->load->view('section/head', array('session_data' => $session_data));
-        $this->load->view('');
-        $this->load->view('section/footer');
+        if($session_data['user_id'] === '1') {    
+            $this->load->view('section/head', array('session_data' => $session_data));
+            $this->load->view('total_calculate');
+            $this->load->view('section/footer');
+        } else {
+            redirect('withcar', 'refresh');
+        }
     }
 
 

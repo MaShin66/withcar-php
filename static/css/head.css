@@ -35,7 +35,12 @@
   right: 25px;
   font-size: 36px;
   margin-left: 50px;
-  }
+}
+
+.head_style {
+  display: inline-block;
+  width: 100%;
+}
 
 .menu_style {
     font-size: 26px;
@@ -51,7 +56,8 @@
     display: inline-block;
     width: 30%;
     margin: 12px;
-    height: 37px;
+    height: 100%;
+    float: left;
 }
 
 .logo_style img {

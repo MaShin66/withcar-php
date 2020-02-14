@@ -25,13 +25,27 @@ class Withcar_model extends CI_Model {
 
 	function get_result($table, $column, $data) {
 		$this->db->select('*');
-		return $this->db->order_by('created', 'DESC')->get_where($table, array($column => $data)) -> result(); // row(); 로 바꿔보기
+		if($table === 'ride') { // ridelist 는 지금 시간보다 미래의 운행만 보여줘야하고, 가까운 순으로 정렬하기 위해
+			$current_date = date("Y-m-d H:i", time());
+			$this->db->where('ride_time >=', $current_date);
+			return $this->db->order_by('ride_time', 'AEC')->get_where($table, array($column => $data)) -> result(); // row(); 로 바꿔보기
+		} else {
+			return $this->db->order_by('created', 'DESC')->get_where($table, array($column => $data)) -> result(); // row(); 로 바꿔보기
+		}
 	}
 
 	function get_result2($table, $column, $data, $column2, $data2) {
 		$this->db->select('*');
 		$this->db->where_not_in($column2, $data2);
 		return $this->db->order_by('created', 'DESC')->get_where($table, array($column => $data)) -> result(); // row(); 로 바꿔보기
+	}
+
+	function get_self_ride($user_id) {
+		$this->db->select('*');
+		$current_date = date("Y-m-d H:i", time());
+		$this->db->where('ride_time >=', $current_date);
+		$this->db->where('user_id', $user_id);
+		return $this->db->order_by('ride_time', 'AEC')->get_where('ride', array('status' => 'REQUESTING')) -> result(); // row(); 로 바꿔보기
 	}
 	
 	function update_data($where, $where_data, $set, $set_data, $table) {

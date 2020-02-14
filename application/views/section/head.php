@@ -24,10 +24,11 @@
 </head>
 <body style="margin: 0; padding: 0;">
 
-<div class="menu_style" onclick="openNav()">&#9776; 메뉴</div>
-<!-- <div class="logo_style"><a href=<?=site_url()?>/withcar class="btn btn-primary main_title">WithCar</a></div> -->
-<div class="logo_style"><a href=<?=site_url()?>/withcar><img src=<?=base_url()?>/static/img/mini_logo.jpeg></a></div>
-<div class="head_right_style"></div>
+<div class="head_style">
+  <div class="menu_style" onclick="openNav()">&#9776; 메뉴</div>
+  <div class="logo_style"><a href=<?=site_url()?>/withcar><img src=<?=base_url()?>/static/img/mini_logo.jpeg></a></div>
+  <!-- <div class="head_right_style"></div> -->
+</div>
 
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
