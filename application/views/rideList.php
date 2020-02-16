@@ -52,13 +52,16 @@
 </style>
 
 <script>
-    // price = '1,234,567,890';
-    price = '1234567890';
-    console.log(price);
+    var price = '123456789012312323';
+    price_array = price.split(""); // 배열로 먼저 만들어주고 (각 인덱스에 ','로 교체해야하니까)
     for(var i in price) {
-        var price2 = price.substr(-4*i, 1)+',';
-        console.log(price2);
+        if(Math.abs((-3*i)-4) <= price_array.length) { // 3칸마다 나눠서 전체 길이만큼만 진행
+            var index = ((-3*i)-4) + price_array.length; // -index 를 쓸 수 없어서 만들어주기
+            var price2 = price.substr((-3*i)-4, 1)+','; // 숫자+',' 를 만들기위해 자르기
+            price_array[index] = price2 // ',' 가 더해지는 자리만 값 교체
+        }
     }
+    price = price_array.join('');
 </script>
 
 <div>

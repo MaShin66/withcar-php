@@ -19,6 +19,40 @@
         padding: 8px 18px;
         font-size: 16px;
     }
+
+    .switch_button {
+      width: 100%;
+      background-color: #111;
+      border: 0;
+      padding-left: 34px;
+    }
+
+    .switch_div {
+      background-color: white;
+      width: 100%;
+      height: 42px;
+      border-radius: 25px;
+      display: flex;
+    }
+
+    .move_div {
+      width: 39%;
+      height: 42px;
+      border-radius: 100%;
+      background-color: darkslateblue;  
+    }
+
+    .move_div:active {
+      transform: translate(63px, 0);
+      transition: 0.5s;
+    }
+
+    .driver_font {
+      font-size: 1.7rem;
+      font-weight: bold;
+      margin: auto;
+    }
+
     </style>
 
 </head>
@@ -33,48 +67,81 @@
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <?php 
-    if($this->session->userdata('is_login') === true) { ?>
+    if($this->session->userdata('is_login') === true) { ?> 
+    <!-- 로그인이 됐다면 -->
         <div class="name_style"><h1><a style="color: cornflowerblue;" href=<?=site_url()?>/withcar/editprofile/<?=$session_data['user_id']?>><?=$session_data['user_name']?> <i class="fas fa-user-edit"></i></a></h1></div>
         <div><h1><a href=<?=site_url()?>/withcar/logout>로그아웃</a></h1></div>
     <?php
-        if($this->session->userdata('is_driver') === '1' && $this->session->userdata('user_id') !== '1') { ?>
+        if($this->session->userdata('is_driving') === '1' && $this->session->userdata('user_id') !== '1') { ?>
+        <!-- 드라이버모드 + 관리자 X -->
             <div><h1><a href=<?=site_url()?>/withcar/ridelist>대기중인 운행</a></h1></div>
             <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>모든 나의 운행</a></h1></div>
         <?php
-        } else if($this->session->userdata('is_driver') === '0' && !$this->session->userdata('user_id') !== '1') { ?>
+        } else if($this->session->userdata('is_driving') === '0' && !$this->session->userdata('user_id') !== '1') { ?>
+        <!-- 탑승자 모드 + 관리자 X -->
             <div><h1><a href=<?=site_url()?>/withcar/ridelist>대기중인 나의 운행</a></h1></div>
             <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>모든 나의 운행</a></h1></div>
         <?php
         }
         if($this->session->userdata('user_id') === '1') { ?>
+        <!-- 관리자라면  -->
           <div><h1><a href=<?=site_url()?>/withcar/total_user>이용자 관리</a></h1></div>
           <div><h1><a href=<?=site_url()?>/withcar/total_calculate>정산 관리</a></h1></div>
         <?php
         }
     } else { ?>
+    <!-- 로그인이 안됐다면 -->
         <div><h1><a href=<?=site_url()?>/withcar/login>로그인</a></h1></div>
         <div><h1><a href=<?=site_url()?>/withcar/signup>회원가입</a></h1></div>
     <?php 
     }
 ?>
 
-<div class="side_footer">
-    <!-- <div><a href="">서비스 정보</a></div> -->
-    <div><a href="javascript:void chatChannel()">
-        <img src="https://developers.kakao.com/assets/img/about/logos/channel/consult_small_yellow_pc.png"/>
-    </a></div>
-    
-</div>
+  <div class="side_footer">
+    <?php
+      if($this->session->userdata('is_login') === false) {
+        // 로그아웃시에는 아무것도 안보여주고
+      } else if($this->session->userdata('is_login') === true) {
+        if($this->session->userdata('is_driving') === '1') { ?>
+        <!-- 로그인 + 드라이버 모드라면 탑승자로 바꿀 수 있는 버튼 -->
+          <button type="button" class="switch_button" onclick="location.href='<?=site_url()?>/withcar/change_mode/<?=$session_data['user_id']?>';">
+            <div class="switch_div">
+              <div class="move_div"></div>
+              <div class="driver_font">탑승자</div>
+            </div>
+          </button>
+        <?php
+        } else if($this->session->userdata('is_driving') === '0' && $this->session->userdata('is_driver') === '1') { ?>
+        <!-- 로그인 + 탑승자 모드 + 운전 등록자라면 드라이버로 바꿀 수 있는 버튼 -->
+          <button type="button" class="switch_button" onclick="location.href='<?=site_url()?>/withcar/change_mode/<?=$session_data['user_id']?>';">
+            <div class="switch_div">
+              <div class="move_div"></div>
+              <div class="driver_font">운전자</div>
+            </div>
+          </button>
+        <?php
+        } else if($this->session->userdata('is_driving') === '0' && $this->session->userdata('is_driver') === '0') {
+        // 드라이버 등록이 안됐다면 보여줄 수 없으니 빈칸
+      }
+    }
+    ?>
+      <div>
+        <a href="javascript:void chatChannel()">
+          <img src="https://developers.kakao.com/assets/img/about/logos/channel/consult_small_yellow_pc.png"/>
+        </a>
+      </div>
+      
+  </div>
 </div>
 
 <script type='text/javascript'>
-function openNav() {
-  document.getElementById("mySidenav").style.width = "260px";
-}
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "260px";
+  }
 
-function closeNav() {
-  document.getElementById("mySidenav").style.width = "0";
-}
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
 
 //<![CDATA[
     Kakao.init('72b5c774f6586e5ca816568729a64c74');

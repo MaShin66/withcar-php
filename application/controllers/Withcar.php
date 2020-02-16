@@ -38,6 +38,7 @@ class Withcar extends CI_Controller {
                 'user_name' =>  $return_value->user_name,
                 'phone' => $return_value->phone,
                 'is_driver' => $return_value->is_driver,
+                'is_driving' => $return_value->is_driving,
                 'is_login' => true));
             redirect('withcar', 'refresh');
         } else {
@@ -127,11 +128,8 @@ class Withcar extends CI_Controller {
     }
 
     function ride($ride_id) {
-        if(!$this->session->userdata('is_login')) {
-            echo '<script>alert("로그인이 필요합니다");</script>';
-            redirect('/withcar/login', 'refresh');
-        } else { // 로그인이 됐다면 진행
-            $get_value = $this->Withcar_model->get_row('ride', 'ride_id', $ride_id);
+        $this->_login_check();
+        $get_value = $this->Withcar_model->get_row('ride', 'ride_id', $ride_id);
         if($get_value->status === 'UNPAID') {
             $return_value = $this->Withcar_model->update_data('ride_id', $ride_id, 'status', 'UNPAID', 'ride');
             // 굳이 있을 필요가..?
@@ -147,10 +145,10 @@ class Withcar extends CI_Controller {
         $this->load->view('section/head', array('session_data' => $session_data));
         $this->load->view('ride', array('return_ride_value' => $return_ride_value));
         $this->load->view('section/footer');
-        }
     }
 
     function riding($ride_id) {
+        $this->_login_check();
         echo '<script>alert("운행을 예약했습니다")</script>';
         // 유저쪽에서 신청한 ride의 status가 ACCEPTED 로 변경됐을 때 알림 필요
         $return_value = $this->Withcar_model->update_data('ride_id', $ride_id, 'status', 'ACCEPTED', 'ride'); 
@@ -166,10 +164,7 @@ class Withcar extends CI_Controller {
     }
 
     function my_route($user_id) {
-        if(!$this->session->userdata('is_login')) {
-            echo '<script>alert("로그인이 필요합니다");</script>';
-            redirect('/withcar/login', 'refresh');
-        } else {
+        $this->_login_check();
             if($this->session->userdata('is_driver') === '1') {
                 $return_value = $this->Withcar_model->get_result2('ride', 'driver_id', $user_id, 'status', 'REQUESTING');
             } else if ($this->session->userdata('is_driver') === '0') {
@@ -180,7 +175,7 @@ class Withcar extends CI_Controller {
             $this->load->view('section/head', array('session_data' => $session_data));
             $this->load->view('my_route', array('return_value' => $return_value));
             $this->load->view('section/footer');
-        }
+        
     }
 
     function onroute($ride_id) {
@@ -375,5 +370,20 @@ class Withcar extends CI_Controller {
         }
     }
 
+    function change_mode($user_id) {
+        $this->_login_check();
+        $return_user_value = $this->Withcar_model->get_row('user', 'user_id', $user_id);
+        if($return_user_value->is_driving === '0') {
+            $this->session->set_userdata(array('is_driving' => '1'));
+            $this->Withcar_model->update_data('user_id', $user_id, 'is_driving', 1, 'user');
+            echo '<script>alert("운전 모드로 전환됐습니다")</script>';
+        } else if($return_user_value->is_driving === '1') {
+            $this->session->set_userdata(array('is_driving' => '0'));
+            var_dump($this->session->userdata());
+            $this->Withcar_model->update_data('user_id', $user_id, 'is_driving', 0, 'user');
+            echo '<script>alert("탑승자 모드로 전환됐습니다")</script>';
+        }
+        redirect('withcar', 'refresh');
+    }
 
 }
