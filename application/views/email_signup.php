@@ -8,7 +8,7 @@
 }
 </style>
 
-<form class="form-horizontal" action="./" method="post">
+<form class="form-horizontal" action="email_signup2" method="post">
   <div class="form-group">
     <label for="email" class="col-sm-2 control-label">이메일 주소</label>
     <div class="col-sm-10">

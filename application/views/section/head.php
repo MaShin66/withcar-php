@@ -75,11 +75,11 @@
         if($this->session->userdata('is_driving') === '1' && $this->session->userdata('user_id') !== '1') { ?>
         <!-- 드라이버모드 + 관리자 X -->
             <div><h1><a href=<?=site_url()?>/withcar/ridelist>대기중인 운행</a></h1></div>
-            <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>모든 나의 운행</a></h1></div>
+            <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>운행 기록</a></h1></div>
         <?php
         } else if($this->session->userdata('is_driving') === '0' && !$this->session->userdata('user_id') !== '1') { ?>
         <!-- 탑승자 모드 + 관리자 X -->
-            <div><h1><a href=<?=site_url()?>/withcar/ridelist>대기중인 나의 운행</a></h1></div>
+            <div><h1><a href=<?=site_url()?>/withcar/ridelist>대기중인 운행</a></h1></div>
             <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>모든 나의 운행</a></h1></div>
         <?php
         }
@@ -105,9 +105,9 @@
         if($this->session->userdata('is_driving') === '1') { ?>
         <!-- 로그인 + 드라이버 모드라면 탑승자로 바꿀 수 있는 버튼 -->
           <button type="button" class="switch_button" onclick="location.href='<?=site_url()?>/withcar/change_mode/<?=$session_data['user_id']?>';">
-            <div class="switch_div">
-              <div class="move_div"></div>
-              <div class="driver_font">탑승자</div>
+            <div class="switch_div" style="background-color: lightpink;">
+            <div class="driver_font">드라이빙</div>
+            <div class="move_div"></div>  
             </div>
           </button>
         <?php
@@ -116,7 +116,7 @@
           <button type="button" class="switch_button" onclick="location.href='<?=site_url()?>/withcar/change_mode/<?=$session_data['user_id']?>';">
             <div class="switch_div">
               <div class="move_div"></div>
-              <div class="driver_font">운전자</div>
+              <div class="driver_font">드라이빙</div>
             </div>
           </button>
         <?php

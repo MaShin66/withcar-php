@@ -40,6 +40,12 @@ class Withcar_model extends CI_Model {
 		return $this->db->order_by('created', 'DESC')->get_where($table, array($column => $data)) -> result(); // row(); 로 바꿔보기
 	}
 
+	function get_result3($table, $column, $data, $column2, $data2) {
+		$this->db->select('*');
+		$this->db->where($column2, $data2);
+		return $this->db->order_by('ride_time', 'DESC')->get_where($table, array($column => $data)) -> row();
+	}
+
 	function get_self_ride($user_id) {
 		$this->db->select('*');
 		$current_date = date("Y-m-d H:i", time());

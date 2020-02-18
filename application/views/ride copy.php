@@ -1,5 +1,4 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-<link rel="stylesheet" type="text/css" href=<?=base_url()?>static/css/list.css>
 
 <style>
 .div_style {
@@ -71,46 +70,24 @@
         <?=$stats?>
     </div>
     <br>
-
-
-    <div class="tdata_style">
-        <div class="address_style"><i class="fas fa-sign-out-alt icon_style"></i> <?=$return_ride_value->depature?></div>
-        <div class="middle_style">
-            <div class="middle_left_style"><?=$return_ride_value->drive_distance;?> km</div>
-            <div class="middle_center_style"><i class="fas fa-angle-double-down arrow_style"></i></div>
-            <div class="middle_right_style"><?=$return_ride_value->drive_time;?> 분</div>
-        </div>
-        <div class="address_style"><i class="fas fa-sign-in-alt icon_style"></i> <?=$return_ride_value->destination?></div>
-    
-        <br>
-
-        <?php
-            $time = $return_ride_value->ride_time;
-            $time = substr($time, 5);
-        ?>
-
-        <div>
-            <div class="time_style"><?=$time?></div>
-            <div class="price_style"><i class="fas fa-coins icon_style"></i> <?=$return_ride_value->withcar_price?></div>
-        </div>
-        
-        <div class="pay_style">
-            <?php
-                if($return_ride_value->payment === 'TRANSFER') {
-                    $payment = '계좌이체';
-                } else if($return_ride_value->payment === 'CASH') {
-                    $payment = '현금 결제';
-                } else if($return_ride_value->payment === 'PAY') {
-                    $payment = '페이 결제';
-                }
-            ?>
-            <?=$payment?>
-        </div>
+    <div><i class="fas fa-sign-out-alt icon_style"></i> <?=$return_ride_value->depature?></div>
+    <div><i class="fas fa-sign-in-alt icon_style"></i> <?=$return_ride_value->destination?></div>
+    <div>운행 거리 <?=$return_ride_value->drive_distance?> km</div>
+    <div>운행 시간 <?=$return_ride_value->drive_time?> 분</div>
+    <div><i class="fas fa-coins icon_style"></i> <?=$return_ride_value->withcar_price?></div>
+    <div>결제방법
+    <?php
+        if($return_ride_value->payment === 'TRANSFER') {
+            $payment = '계좌이체';
+        } else if($return_ride_value->payment === 'CASH') {
+            $payment = '현금 결제';
+        } else if($return_ride_value->payment === 'PAY') {
+            $payment = '페이';
+        }
+    ?>
+    <?=$payment?>
     </div>
-
-    <br>
-    <br>
-
+    <br><br>
     <?php
         if($this->session->userdata('is_driver') === '1' && $return_ride_value->status === 'REQUESTING') { ?>
             <div class="cancel_style"><a href="../riding/<?=$return_ride_value->ride_id?>">운행 예약하기</a></div>

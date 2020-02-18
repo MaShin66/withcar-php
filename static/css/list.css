@@ -1,0 +1,47 @@
+.address_style {
+    text-align: center;
+}
+
+.middle_style {
+    display: flex;
+    margin: 4% 0;
+}
+
+.middle_left_style {
+    flex: 1;
+    text-align: right;
+    margin: auto;
+}
+
+.middle_center_style {
+    flex: 1;
+    text-align: center;
+    margin: auto;
+}
+
+.middle_right_style {
+    flex: 1;
+    text-align: left;
+    margin: auto;
+}
+
+.arrow_style {
+    font-size: 4rem;
+}
+
+.time_style {
+    display: inline-block;
+}
+
+.price_style {
+    display: inline-block;
+    float: right;
+}
+
+.pay_style {
+    float: right;
+}
+
+.click_style {
+    /* text-align: center; */
+}

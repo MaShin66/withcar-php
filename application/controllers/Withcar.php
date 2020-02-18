@@ -8,14 +8,19 @@ class Withcar extends CI_Controller {
 	}
 
     public function index() { // 처음 게시판
-        if($this->input->post()){
-            $this->_email_signup($this->input->post());
-        } else if ($this->session->userdata()) {
+        if($this->session->userdata('is_driving') === '0') { // 탑승자 모드
             $session_data = $this->session->userdata();
             $this->load->view('section/head', array('session_data' => $session_data));
             $this->load->view('withcar_view', array('session_data' => $session_data));
             $this->load->view('section/footer');
-        } else {
+        } else if($this->session->userdata('is_driving') === '1') { // 운행자 모드
+            $return_ride_value = $this->Withcar_model->get_result3('ride', 'driver_id', $this->session->userdata('user_id'),'status', 'ONROUTE');
+            if($return_ride_value) { // ONROUTE 인 운행이 있다면 운행중인 페이지 보여주고
+                $this->onroute($return_ride_value->ride_id);
+            } else { // 운행중인 페이지 없다면 운행 리스트 보여주기
+                $this->ridelist();
+            }
+        } else { // 비로그인
             $this->load->view('section/head');
             $this->load->view('withcar_view');
             $this->load->view('section/footer');
@@ -71,7 +76,8 @@ class Withcar extends CI_Controller {
         $this->load->view('section/footer');
     }
 
-    function _email_signup($data) {
+    function email_signup2() {
+        $data = $this->input->post();
         $hash_pwd = password_hash($data['password'], PASSWORD_BCRYPT);
         $data['password'] = $hash_pwd;
         $return_value = $this->Withcar_model->insert('user', $data);
@@ -98,21 +104,18 @@ class Withcar extends CI_Controller {
     }
 
     function ridelist() {
-        if(!$this->session->userdata('is_login')) { // 로그인이 안됐다면 로그인 페이지로 이동
-            echo '<script>alert("로그인이 필요합니다");</script>';
-            redirect('/withcar/login', 'refresh');
-        } else { // 로그인이 됐다면 아래 작업 시작
-            if($this->input->post()) {
-                $ride_info = $this->input->post();
-                if($ride_info['payment'] === 'CASH') { // 현금같은 경우 십원 단위는 버려야하므로 십의자리에서 반올림해서 등록
-                    $ride_info['withcar_price'] = (int)preg_replace("/[^\d]/i", "", $ride_info['withcar_price']);
-                    $ride_info['withcar_price'] = round($ride_info['withcar_price'], -2);
-                    $ride_info['withcar_price'] = substr($ride_info['withcar_price'], -4, 1).','.substr($ride_info['withcar_price'], -3).' 원';
-                }
-                $this->Withcar_model->insert('ride', $ride_info);
-                echo '<script>alert("등록이 완료되었습니다.")</script>';
-            } 
-
+        $this->_login_check();
+        if($this->input->post()) { // 이전페이지가 운행 등록이라면
+            $ride_info = $this->input->post();
+            if($ride_info['payment'] === 'CASH') { // 현금같은 경우 십원 단위는 버려야하므로 십의자리에서 반올림해서 등록
+                $ride_info['withcar_price'] = (int)preg_replace("/[^\d]/i", "", $ride_info['withcar_price']);
+                $ride_info['withcar_price'] = round($ride_info['withcar_price'], -2);
+                $ride_info['withcar_price'] = substr($ride_info['withcar_price'], -4, 1).','.substr($ride_info['withcar_price'], -3).' 원';
+            }
+            $this->Withcar_model->insert('ride', $ride_info);
+            echo '<script>alert("등록이 완료되었습니다.")</script>';
+            redirect('withcar/ridelist', 'refresh');
+        } else { // 운행등록이 아니라면
             if($this->session->userdata('is_driver') === '1') { // 드라이버라면 모든 대기중인 운행 가져오고
                 $return_ridelist = $this->Withcar_model->get_result('ride', 'status', 'REQUESTING');
             } else if($this->session->userdata('is_driver') === '0') { // 운행자라면 자신의 운행만 가져오기
@@ -379,7 +382,6 @@ class Withcar extends CI_Controller {
             echo '<script>alert("운전 모드로 전환됐습니다")</script>';
         } else if($return_user_value->is_driving === '1') {
             $this->session->set_userdata(array('is_driving' => '0'));
-            var_dump($this->session->userdata());
             $this->Withcar_model->update_data('user_id', $user_id, 'is_driving', 0, 'user');
             echo '<script>alert("탑승자 모드로 전환됐습니다")</script>';
         }
