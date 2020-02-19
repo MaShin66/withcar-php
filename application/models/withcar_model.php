@@ -51,7 +51,31 @@ class Withcar_model extends CI_Model {
 		$current_date = date("Y-m-d H:i", time());
 		$this->db->where('ride_time >=', $current_date);
 		$this->db->where('user_id', $user_id);
-		return $this->db->order_by('ride_time', 'AEC')->get_where('ride', array('status' => 'REQUESTING')) -> result(); // row(); 로 바꿔보기
+		return $this->db->order_by('ride_time', 'AEC')->get_where('ride', array('status' => 'REQUESTING')) -> result();
+	}
+
+	function get_requesting_ride($user_id) {
+		$this->db->select('*');
+		$current_date = date("Y-m-d H:i", time());
+		$this->db->where('ride_time >=', $current_date);
+		$this->db->where_not_in('user_id', $user_id);
+		return $this->db->order_by('ride_time', 'AEC')->get_where('ride', array('status' => 'REQUESTING')) -> result();
+	}
+
+	function user_get_accepted_ride($user_id) {
+		$this->db->select('*');
+		$current_date = date("Y-m-d H:i", time());
+		$this->db->where('ride_time >=', $current_date);
+		$this->db->where('user_id', $user_id);
+		return $this->db->order_by('ride_time', 'AEC')->get_where('ride', array('status' => 'ACCEPTED')) -> result();
+	}
+
+	function driver_get_accepted_ride($user_id) {
+		$this->db->select('*');
+		$current_date = date("Y-m-d H:i", time());
+		$this->db->where('ride_time >=', $current_date);
+		$this->db->where('driver_id', $user_id);
+		return $this->db->order_by('ride_time', 'AEC')->get_where('ride', array('status' => 'ACCEPTED')) -> result();
 	}
 	
 	function update_data($where, $where_data, $set, $set_data, $table) {

@@ -25,7 +25,7 @@
     <div>이름 <?=$return_user_value->user_name?></div>
     <div>학번(교번) <?=$return_user_value->student_id?></div>
     <div>이메일 주소 <?=$return_user_value->email?></div>
-    <div>휴대폰 번호 <?=$return_user_value->phone?></div>
+    <div>휴대폰 번호 <a href="tel: <?=$return_user_value->phone?>"><?=$return_user_value->phone?></a></div>
     <div><a href="../changepwd/<?=$return_user_value->user_id?>">비밀번호 변경</a></div>
     <br>
 <?php

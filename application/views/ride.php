@@ -43,15 +43,6 @@
 <div id="map_div">
 </div>
 
-<?php
-    if($return_ride_value->status === 'ACCEPTED'){
-        // echo '이용자 모드';
-        echo '<script>alert("드라이버가 요청을 수락했습니다.");</script>';
-    } else if($return_ride_value->status === 'ONROUTE') {
-        echo '<script>alert("드라이버가 운행을 시작했습니다. 운행정보 페이지로 이동합니다.");</script>';
-        redirect('withcar/onroute/'.$return_ride_value->ride_id, 'refresh');
-    }
-?>
 <div class="height_div"></div>
 <div class="div_style">
     <div class="status_style">
@@ -112,11 +103,12 @@
     <br>
 
     <?php
-        if($this->session->userdata('is_driver') === '1' && $return_ride_value->status === 'REQUESTING') { ?>
+    $session_data = $this->session->userdata();
+        if($session_data['is_driving'] === '1' && $return_ride_value->status === 'REQUESTING') { ?>
             <div class="cancel_style"><a href="../riding/<?=$return_ride_value->ride_id?>">운행 예약하기</a></div>
         <?php
-        } else if($this->session->userdata('is_driver') === '0' 
-            && ($this->session->userdata('user_id') === $return_ride_value->user_id)
+        } else if($session_data['is_driver'] === '0' 
+            && ($session_data['user_id'] === $return_ride_value->user_id)
             && ($return_ride_value->status === 'REQUESTING' 
             || $return_ride_value->status === 'ACCEPTED' 
             || $return_ride_value->status === 'ONROUTE')) { ?>

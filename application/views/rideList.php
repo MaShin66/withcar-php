@@ -4,7 +4,18 @@
 
 <div>
     <div class="head_style">
-        <div class="title_style">대기중인 운행</div>
+        <?php
+            if(strstr(current_url(),'requested_ride')) { ?>
+                <div class="title_style">드라이버가 수락한 운행</div>
+            <?php
+            } else if($session_data['is_driving'] === '1') { ?>
+                <div class="title_style">대기중인 운행</div>
+            <?php
+            } else if($session_data['is_driving'] === '0') { ?>
+                <div class="title_style">등록한 운행</div>
+            <?php
+            }
+        ?>
         <br>
         <div class="div_style">
             <?php
@@ -55,7 +66,15 @@
                         </div>
                         
                         <div class="click_style">
-                            <a href=<?=site_url()?>/withcar/ride/<?=$data->ride_id?>>자세히 보기</a>
+                        <?php
+                            if(strstr(current_url(),'requested_ride') && $this->session->userdata('is_driving') === '1') { ?>
+                                <a href=<?=site_url()?>/withcar/riding/<?=$data->ride_id?>>자세히 보기</a>    
+                            <?php
+                            } else { ?>
+                                <a href=<?=site_url()?>/withcar/ride/<?=$data->ride_id?>>자세히 보기</a>
+                            <?php
+                            }
+                        ?>
                         </div>
 
 

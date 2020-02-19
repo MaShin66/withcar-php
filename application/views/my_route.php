@@ -4,7 +4,7 @@
 <div>
     <div class="head_style">
         <br>
-        <div class="title_style">모든 나의 운행</div>
+        <div class="title_style">운행 내역</div>
         <br>
         <div class="div_style">
             <a href=<?=site_url()?>/withcar class="a_style">홈으로</a>
