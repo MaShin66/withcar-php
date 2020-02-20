@@ -5,8 +5,11 @@
 <div>
     <div class="head_style">
         <?php
-            if(strstr(current_url(),'requested_ride')) { ?>
-                <div class="title_style">드라이버가 수락한 운행</div>
+            if(strstr(current_url(),'requested_ride') && $session_data['is_driving'] === '1') { ?>
+                <div class="title_style">내가 수락한 운행</div>
+            <?php
+            } else if(strstr(current_url(),'requested_ride') && $session_data['is_driving'] === '0') { ?>
+                <div class="title_style">수락된 운행</div>
             <?php
             } else if($session_data['is_driving'] === '1') { ?>
                 <div class="title_style">대기중인 운행</div>
@@ -25,7 +28,7 @@
                 }
             ?>            
             <span class="span_style"></span>
-            <a href=<?=site_url()?>/withcar/ridelist class="a_style">새로고침</a>
+            <a href=<?=current_url()?> class="a_style">새로고침</a>
         </div>
     </div>
     <div class="table_style">

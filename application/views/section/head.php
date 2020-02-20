@@ -67,19 +67,23 @@
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <?php 
-    if($this->session->userdata('is_login') === true) { ?> 
+    if($this->session->userdata('is_login') === true) {
+    $session_data = $this->session->userdata();
+    ?>
     <!-- 로그인이 됐다면 -->
         <div class="name_style"><h1><a style="color: cornflowerblue;" href=<?=site_url()?>/withcar/editprofile/<?=$session_data['user_id']?>><?=$session_data['user_name']?> <i class="fas fa-user-edit"></i></a></h1></div>
         <div><h1><a href=<?=site_url()?>/withcar/logout>로그아웃</a></h1></div>
     <?php
         if($this->session->userdata('is_driving') === '1' && $this->session->userdata('user_id') !== '1') { ?>
         <!-- 드라이버모드 + 관리자 X -->
+            <div><h1><a href=<?=site_url()?>/withcar/onroute_ride/<?=$session_data['user_id']?>>운행중</a></h1></div>
             <div><h1><a href=<?=site_url()?>/withcar/requested_ride/<?=$session_data['user_id']?>>수락한 운행</a></h1></div>
             <div><h1><a href=<?=site_url()?>/withcar/ridelist>대기중인 운행</a></h1></div>
             <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>운행 내역</a></h1></div>
         <?php
         } else if($this->session->userdata('is_driving') === '0' && !$this->session->userdata('user_id') !== '1') { ?>
         <!-- 탑승자 모드 + 관리자 X -->
+            <div><h1><a href=<?=site_url()?>/withcar/onroute_ride/<?=$session_data['user_id']?>>운행중</a></h1></div>
             <div><h1><a href=<?=site_url()?>/withcar/requested_ride/<?=$session_data['user_id']?>>승인된 운행</a></h1></div>
             <div><h1><a href=<?=site_url()?>/withcar/ridelist>등록한 운행</a></h1></div>
             <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>운행 내역</a></h1></div>

@@ -77,6 +77,22 @@ class Withcar_model extends CI_Model {
 		$this->db->where('driver_id', $user_id);
 		return $this->db->order_by('ride_time', 'AEC')->get_where('ride', array('status' => 'ACCEPTED')) -> result();
 	}
+
+	function user_get_onroute_ride($user_id) {
+		$this->db->select('*');
+		$current_date = date("Y-m-d H:i", time());
+		$this->db->where('ride_time >=', $current_date);
+		$this->db->where('user_id', $user_id);
+		return $this->db->order_by('ride_time', 'AEC')->get_where('ride', array('status' => 'ONROUTE')) -> result();
+	}
+
+	function driver_get_onroute_ride($user_id) {
+		$this->db->select('*');
+		$current_date = date("Y-m-d H:i", time());
+		$this->db->where('ride_time >=', $current_date);
+		$this->db->where('driver_id', $user_id);
+		return $this->db->order_by('ride_time', 'AEC')->get_where('ride', array('status' => 'ONROUTE')) -> result();
+	}
 	
 	function update_data($where, $where_data, $set, $set_data, $table) {
 		$this->db->where($where, $where_data);

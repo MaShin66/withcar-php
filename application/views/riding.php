@@ -51,14 +51,14 @@
                 <div>탑승자 운행 정보</div>
                 <br>
                 <div><i class="far fa-user icon_style"></i> <?=$return_value->user_name?></div>
-                <div><i class="fas fa-mobile-alt icon_style"></i> <?=$return_value->user_phone?></div>
+                <div><i class="fas fa-mobile-alt icon_style"></i> <a href="tel: <?=$return_value->user_phone?>"><?=$return_value->user_phone?></a></div>
                 <br>
             <?php
             } else if($this->session->userdata('is_driver') === '0') { ?>
                 <div>운전자 운행 정보</div>
                 <br>
                 <div><i class="far fa-user icon_style"></i> <?=$return_value->driver_name?></div>
-                <div><i class="fas fa-mobile-alt icon_style"></i> <?=$return_value->driver_phone?></div>
+                <div><i class="fas fa-mobile-alt icon_style"></i> <a href="tel: <?=$return_value->driver_phone?>"><?=$return_value->driver_phone?></a></div>
                 <br>
             <?php
             } 
@@ -69,7 +69,8 @@
     <br>
     <div>운행 거리 <?=$return_value->drive_distance?> km</div>
     <div>운행 시간 <?=$return_value->drive_time?> 분</div>
-    <div>출발 시간 <?=$return_value->ride_time?> 분</div>
+    <div id="ride_time">출발 시간 <?=$return_value->ride_time?> 분</div>
+    <div id="clock">출발까지 남은 시간</div>
     <br>
     <div><i class="fas fa-coins icon_style"></i> <?=$return_value->withcar_price?></div>
     <br>
@@ -90,3 +91,21 @@
 ?>
 
 </div>
+
+<script>
+    function clock_function() {
+
+        var ride_time = document.getElementById("ride_time").innerHTML;
+        console.log(ride_time);
+
+        var currentDate = new Date();
+        console.log(currentDate);
+
+        console.log(currentDate.getHours());
+        console.log(currentDate.getMinutes());
+    
+        
+    }
+
+    clock_function();
+</script>
