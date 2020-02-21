@@ -70,7 +70,7 @@
     <div>운행 거리 <?=$return_value->drive_distance?> km</div>
     <div>운행 시간 <?=$return_value->drive_time?> 분</div>
     <div id="ride_time">출발 시간 <?=$return_value->ride_time?> 분</div>
-    <div id="clock">출발까지 남은 시간</div>
+    <div id="clock"></div>
     <br>
     <div><i class="fas fa-coins icon_style"></i> <?=$return_value->withcar_price?></div>
     <br>
@@ -94,18 +94,39 @@
 
 <script>
     function clock_function() {
-
-        var ride_time = document.getElementById("ride_time").innerHTML;
-        console.log(ride_time);
-
-        var currentDate = new Date();
-        console.log(currentDate);
-
-        console.log(currentDate.getHours());
-        console.log(currentDate.getMinutes());
-    
+        var ride_time = document.getElementById("ride_time").innerText;
+        var ride_time = new Date(ride_time.substring(6, 22));
         
-    }
+        var currentDate = new Date();
 
+        var diff = ride_time - currentDate;
+
+        var standard_second = 1000;
+        var standard_minute = standard_second * 60;
+        var standard_hour = standard_minute * 60;
+        var standard_day = standard_hour * 24;
+        var standard_month = standard_day * 30;
+        var standard_year = standard_month * 12;
+
+        // var diff_second = parseInt(diff/standard_second) % 60;
+        var diff_minute = parseInt(diff/standard_minute) % 60;
+        var diff_hour = parseInt(diff/standard_hour) % 24;
+        var diff_day = parseInt(diff/standard_day) % 30;
+        var diff_month = parseInt(diff/standard_month) % 12;
+        var diff_year = parseInt(diff/standard_year);
+
+        document.getElementById("clock").innerHTML = '';
+
+        document.getElementById("clock").innerHTML += '출발까지 남은 시간 <br>';
+        if(diff_year >= 1) {
+            document.getElementById("clock").innerHTML += diff_year + ' 년 ';    
+        }
+        if(diff_month >= 1) {
+            document.getElementById("clock").innerHTML += diff_month + ' 달 ';    
+        }
+        document.getElementById("clock").innerHTML += diff_day + ' 일 ' + diff_hour + ' 시간 ' + diff_minute + ' 분';
+    }
+    
     clock_function();
+    setInterval('clock_function()', 1000 * 60);
 </script>
