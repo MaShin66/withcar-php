@@ -77,7 +77,7 @@
         if($this->session->userdata('is_driving') === '1' && $this->session->userdata('user_id') !== '1') { ?>
         <!-- 드라이버모드 + 관리자 X -->
             <div><h1><a href=<?=site_url()?>/withcar/onroute_ride/<?=$session_data['user_id']?>>운행중</a></h1></div>
-            <div><h1><a href=<?=site_url()?>/withcar/requested_ride/<?=$session_data['user_id']?>>수락한 운행</a></h1></div>
+            <div><h1><a href=<?=site_url()?>/withcar/requested_ride/<?=$session_data['user_id']?>>승인한 운행</a></h1></div>
             <div><h1><a href=<?=site_url()?>/withcar/ridelist>대기중인 운행</a></h1></div>
             <div><h1><a href=<?=site_url()?>/withcar/my_route/<?=$session_data['user_id']?>>운행 내역</a></h1></div>
         <?php

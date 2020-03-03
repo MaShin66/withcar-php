@@ -43,6 +43,8 @@
             }
         ?>
         <?=$stats?>
+        <br>
+        <div id="clock"></div>
     </div>
     <br>
     <div class="subtitle_style">
@@ -70,7 +72,7 @@
     <div>운행 거리 <?=$return_value->drive_distance?> km</div>
     <div>운행 시간 <?=$return_value->drive_time?> 분</div>
     <div id="ride_time">출발 시간 <?=$return_value->ride_time?> 분</div>
-    <div id="clock"></div>
+    <div>탑승 인원 <?=$return_value->population_number?> 명</div>
     <br>
     <div><i class="fas fa-coins icon_style"></i> <?=$return_value->withcar_price?></div>
     <br>
@@ -100,20 +102,21 @@
         var currentDate = new Date();
 
         var diff = ride_time - currentDate;
+        
+        if(diff < 0) break;
 
-        var standard_second = 1000;
-        var standard_minute = standard_second * 60;
-        var standard_hour = standard_minute * 60;
-        var standard_day = standard_hour * 24;
-        var standard_month = standard_day * 30;
-        var standard_year = standard_month * 12;
+        var standard_second = 1000
+        , standard_minute = standard_second * 60
+        , standard_hour = standard_minute * 60
+        , standard_day = standard_hour * 24
+        , standard_month = standard_day * 30
+        , standard_year = standard_month * 12;
 
-        // var diff_second = parseInt(diff/standard_second) % 60;
-        var diff_minute = parseInt(diff/standard_minute) % 60;
-        var diff_hour = parseInt(diff/standard_hour) % 24;
-        var diff_day = parseInt(diff/standard_day) % 30;
-        var diff_month = parseInt(diff/standard_month) % 12;
-        var diff_year = parseInt(diff/standard_year);
+        var diff_minute = parseInt(diff/standard_minute) % 60
+        , diff_hour = parseInt(diff/standard_hour) % 24
+        , diff_day = parseInt(diff/standard_day) % 30
+        , diff_month = parseInt(diff/standard_month) % 12
+        , diff_year = parseInt(diff/standard_year);
 
         document.getElementById("clock").innerHTML = '';
 

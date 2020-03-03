@@ -75,10 +75,48 @@ class Withcar extends CI_Controller {
         $this->load->view('section/footer');
     }
 
+    function email_authentication() {
+        $this->load->view('section/head');
+        $this->load->view('email_authentication');
+        $this->load->view('section/footer');
+    }
+
+    function email_check($email) {
+        $return_value = $this->Withcar_model->get_row('user', 'email', $email);
+        
+        echo json_encode($return_value, JSON_UNESCAPED_UNICODE);
+    }
+
     function email_signup() {
         $this->load->view('section/head');
         $this->load->view('email_signup');
         $this->load->view('section/footer');
+    }
+
+    function email_send($email) {
+        $this->load->library('email');
+
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'ssl://smtp.gmail.com';
+        $config['smtp_user'] = 'withcar666@gmail.com';
+        $config['smtp_pass'] = 'tkfrznr6';
+        $config['smtp_port'] = '465';
+        $config['mailtype'] = 'html';
+        $config['charset'] = 'utf-8';
+        $config['wordwrap'] = TRUE;
+
+        $this->email->initialize($config);
+
+        $this->email->from('withcar666@gmail.com', '나');
+        $this->email->to($email);
+        $this->email->subject('php 테스트');
+        $this->email->message('메일 테스트');
+        // $this->email->set_newline("\r\n");
+        if($this->email->send()) {
+            echo 'true';
+        } else {
+            echo $this->email->print_debugger();
+        }
     }
 
     function email_signup2() {
@@ -140,9 +178,13 @@ class Withcar extends CI_Controller {
         $session_data = $this->session->userdata();
         $return_ride_value = $this->Withcar_model->get_row('ride', 'ride_id', $ride_id);
         
+        // ACCEPTED + 탑승자 모드 + 이전 페이지가 requested_ride 아닐 때
         if($return_ride_value->status === 'ACCEPTED' && $session_data['is_driving'] === '0' && !strstr($_SERVER['HTTP_REFERER'], 'requested_ride')) {
             echo '<script>alert("드라이버가 요청을 수락했습니다.");</script>';
-        } else if($return_ride_value->status === 'ONROUTE') {
+        // 드라이버 모드 + ride db에 다른 드라이버 id 가 있을 경우 + ACCEPTED 상태
+        } else if(($return_ride_value->driver_id != $session_data['user_id']) && $return_ride_value->status === 'ACCEPTED' && $session_data['is_driving'] === '1') {
+            echo '<script>alert("다른 드라이버가 요청을 수락했습니다.");</script>';
+        } else if($return_ride_value->status === 'ONROUTE' && ($session_data['user_id'] === $return_ride_value->user_id || $session_data['user_id'] === $return_ride_value->driver_id)) {
             if(!strstr($_SERVER['HTTP_REFERER'], 'onroute_ride')) {
                 echo '<script>alert("드라이버가 운행을 시작했습니다. 운행정보 페이지로 이동합니다.");</script>';
             }
@@ -165,6 +207,7 @@ class Withcar extends CI_Controller {
 
     function riding($ride_id) {
         $this->_login_check();
+        
         $session_data = $this->session->userdata();
         if($session_data['is_driving'] === '1' && !strstr($_SERVER['HTTP_REFERER'], 'requested_ride')) {
             echo '<script>alert("운행을 예약했습니다")</script>';    
@@ -196,7 +239,7 @@ class Withcar extends CI_Controller {
         
     }
 
-    function onroute($ride_id) {
+    function onroute($ride_id) { // 현재 운행중인 경로
         $this->_login_check();
         $get_value = $this->Withcar_model->get_row('ride', 'ride_id', $ride_id);
         if($get_value->status === 'UNPAID') {
@@ -244,7 +287,7 @@ class Withcar extends CI_Controller {
         }
     }
 
-    function requested_ride($ride_id) {
+    function requested_ride($ride_id) { // 요청이 'ACCEPTED' 인 요청들
         $this->_login_check();
         $session_data = $this->session->userdata();
         if($session_data['is_driving'] === '1') {
@@ -258,12 +301,13 @@ class Withcar extends CI_Controller {
             $this->load->view('ridelist', array('return_ridelist' => $return_ride_value));
             $this->load->view('section/footer');
         } else {
-            echo '등록한, 수락한 운행이 없습니다.';
+            echo '<script>alert("수락 운행이 없습니다. 리스트 페이지로 이동합니다.");</script>';
+             redirect(site_url().'/withcar/ridelist', 'refresh');
         }
         
     }
 
-    function onroute_ride($ride_id) {
+    function onroute_ride($ride_id) { // 메뉴에서 운행중인 경로
         $this->_login_check();
         $session_data = $this->session->userdata();
         if($session_data['is_driving'] === '1') {
@@ -277,7 +321,8 @@ class Withcar extends CI_Controller {
             $this->load->view('ridelist', array('return_ridelist' => $return_ride_value));
             $this->load->view('section/footer');
         } else {
-            echo '등록한, 수락한 운행이 없습니다.';
+             echo '<script>alert("운행중인 경로가 없습니다. 리스트 페이지로 이동합니다.");</script>';
+             redirect(site_url().'/withcar/ridelist', 'refresh');
         }
     }
     

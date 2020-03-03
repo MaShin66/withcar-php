@@ -84,18 +84,20 @@
             <div class="time_style"><?=$time?></div>
             <div class="price_style"><i class="fas fa-coins icon_style"></i> <?=$return_ride_value->withcar_price?></div>
         </div>
-        
-        <div class="pay_style">
-            <?php
-                if($return_ride_value->payment === 'TRANSFER') {
-                    $payment = '계좌이체';
-                } else if($return_ride_value->payment === 'CASH') {
-                    $payment = '현금 결제';
-                } else if($return_ride_value->payment === 'PAY') {
-                    $payment = '페이 결제';
-                }
-            ?>
-            <?=$payment?>
+        <div>
+            <div class="number_style"><?=$return_ride_value->population_number?> 명</div>
+            <div class="pay_style">
+                <?php
+                    if($return_ride_value->payment === 'TRANSFER') {
+                        $payment = '계좌이체';
+                    } else if($return_ride_value->payment === 'CASH') {
+                        $payment = '현금 결제';
+                    } else if($return_ride_value->payment === 'PAY') {
+                        $payment = '페이 결제';
+                    }
+                ?>
+                <?=$payment?>
+            </div>
         </div>
     </div>
 
@@ -107,7 +109,7 @@
         if($session_data['is_driving'] === '1' && $return_ride_value->status === 'REQUESTING') { ?>
             <div class="cancel_style"><a href="../riding/<?=$return_ride_value->ride_id?>">운행 예약하기</a></div>
         <?php
-        } else if($session_data['is_driver'] === '0' 
+        } else if($session_data['is_driving'] === '0' 
             && ($session_data['user_id'] === $return_ride_value->user_id)
             && ($return_ride_value->status === 'REQUESTING' 
             || $return_ride_value->status === 'ACCEPTED' 

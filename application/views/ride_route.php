@@ -28,6 +28,33 @@
 #Tmap_Map_7_Tmap_ViewPort {
     z-index: 1;
 }
+
+.number_text {
+    display: inline-block;
+}
+
+.minus, .plus {
+    width: 22px;
+    height: 32px;
+    background: #f2f2f2;
+    border-radius: 4px;
+    /* padding: 8px 5px 8px 5px; */
+    border: 1px solid #ddd;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.counter_number {
+    height: 30px;
+    width: 60px;
+    text-align: center;
+    font-size: 2rem;
+    border:1px solid #ddd;
+    border-radius: 4px;
+    display: inline-block;
+    vertical-align: middle;
+}
 </style>
 
 <script src="https://api2.sktelecom.com/tmap/js?version=1&format=javascript&appKey=da7b106e-e761-42bd-948c-e1dd2a1d66d5"></script>        
@@ -53,6 +80,13 @@
         <br>
         <div>운행 거리 (km) <input type="text" id="drive_distance" class="input_style" name="drive_distance" readonly></div>
         <div>운행 시간 (분)<input type="text" id="drive_time" class="input_style" name="drive_time" readonly></div>
+        
+        <div class="number">
+        <div class="number_text">탑승 인원</div>
+	        <span class="minus">-</span>
+            <input class="counter_number" name="population_number" type="text" value="1"/>
+	        <span class="plus">+</span>
+        </div>
         <br>
         <div>
             <span>결제 방법</span>
@@ -83,3 +117,24 @@
         ?>
     </form>
 </div>
+
+<script>
+$(document).ready(function() {
+    $('.plus').click(function () {
+        var $input = $(this).parent().find('input');
+        var count = parseInt($input.val()) + 1;
+        count = count > 9 ? 9 : count;
+        $input.val(count);
+        $input.change();
+        return false;
+    });
+    $('.minus').click(function () {
+        var $input = $(this).parent().find('input');
+        var count = parseInt($input.val()) - 1;
+        count = count < 1 ? 1 : count;
+        $input.val(count);
+        $input.change();
+        return false;
+    });
+});
+</script>

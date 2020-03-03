@@ -3,10 +3,10 @@ class Withcar_model extends CI_Model {
 
 	function __construct(){
 		parent::__construct();
+		date_default_timezone_set('Asia/Seoul');
 	}
 
 	function insert($table, $data) {
-		date_default_timezone_set('Asia/Seoul');
 		$data['created'] = date("Y-m-d H:i:s");
 		if($table === 'ride') {
 			$data['ride_time'] = $data['date_value'].' '.$data['time_value'];

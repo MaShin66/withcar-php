@@ -6,10 +6,10 @@
     <div class="head_style">
         <?php
             if(strstr(current_url(),'requested_ride') && $session_data['is_driving'] === '1') { ?>
-                <div class="title_style">내가 수락한 운행</div>
+                <div class="title_style">탑승 승인한 운행</div>
             <?php
             } else if(strstr(current_url(),'requested_ride') && $session_data['is_driving'] === '0') { ?>
-                <div class="title_style">수락된 운행</div>
+                <div class="title_style">탑승 수락된 운행</div>
             <?php
             } else if($session_data['is_driving'] === '1') { ?>
                 <div class="title_style">대기중인 운행</div>
@@ -49,25 +49,25 @@
                             $time = $data->ride_time;
                             $time = substr($time, 5);
                         ?>
-
                         <div>
                             <div class="time_style"><?=$time?></div>
-                            <div class="price_style"><i class="fas fa-coins icon_style"></i> <?=$data->withcar_price?></div>
+                            <div class="price_style"><i class="fas fa-coins icon_style"></i> <?=$data->withcar_price?></div>                        
                         </div>
-                        
-                        <div class="pay_style">
-                            <?php
-                                if($data->payment === 'TRANSFER') {
-                                    $payment = '계좌이체';
-                                } else if($data->payment === 'CASH') {
-                                    $payment = '현금 결제';
-                                } else if($data->payment === 'PAY') {
-                                    $payment = '페이 결제';
-                                }
-                            ?>
-                            <?=$payment?>
+                        <div>
+                            <div class="number_style"><?=$data->population_number?> 명</div>
+                            <div class="pay_style">
+                                <?php
+                                    if($data->payment === 'TRANSFER') {
+                                        $payment = '계좌이체';
+                                    } else if($data->payment === 'CASH') {
+                                        $payment = '현금 결제';
+                                    } else if($data->payment === 'PAY') {
+                                        $payment = '페이 결제';
+                                    }
+                                ?>
+                                <?=$payment?>
+                            </div>
                         </div>
-                        
                         <div class="click_style">
                         <?php
                             if(strstr(current_url(),'requested_ride') && $this->session->userdata('is_driving') === '1') { ?>
