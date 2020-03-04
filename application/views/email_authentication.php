@@ -24,13 +24,12 @@
       <button type="button" class="btn btn-default" onclick="email_send()">인증번호 받기</button>
     </div>
   </div>
+
+  <div id="code_div"></div>
   
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default">회원가입</button>
-    </div>
-  </div>
+  <div id="submit_div"></div>
 </form>
+
 
 <script>
 
@@ -62,21 +61,34 @@ function email_check() {
     }
 }
 
+// $code = sprintf('%02d', mt_rand(0000,9999));
+var code = Math.floor(Math.random()*9000+1000);
+
 function email_send() {
     var email = document.getElementById('email').value;
+
     $.ajax({
-        url: '/index.php/withcar/email_send/' + email,
+        url: '/index.php/withcar/email_send/' + email + '/' + code,
         type: 'POST',
         dataType: 'json',
-        success: function($return) {
-            console.log('일단 성공');
-            console.log($return);
+        success: function($code) {
+            console.log($code);
+            document.getElementById('code_div').innerHTML = '인증번호입력: <input type="text" name="code" id="code"></input> <br> <div><button type="button" onclick="code_check()">인증번호 확인</button></div>';
         },
         error: function(request, status, error) {
-            console.log(request.responseText);
-            console.log(status);
-            console.log(error);
+            console.log(request.responseText, status, error);
         }
     });
 }
+
+function code_check() {
+  console.log(document.getElementById('code').value, code);
+  if(document.getElementById('code').value == code) {
+    console.log('인증 성공');
+    document.getElementById('submit_div').innerHTML = '<div class="form-group"> <div class="col-sm-offset-2 col-sm-10"> <button type="submit" class="btn btn-default">회원가입</button> </div> </div>'
+  } else {
+    console.log('아닌가');
+  }
+}
+
 </script>
