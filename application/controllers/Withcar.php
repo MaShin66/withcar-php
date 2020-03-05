@@ -87,20 +87,12 @@ class Withcar extends CI_Controller {
         echo json_encode($return_value, JSON_UNESCAPED_UNICODE);
     }
 
-    function email_signup() {
-        $this->load->view('section/head');
-        $this->load->view('email_signup');
-        $this->load->view('section/footer');
-    }
-
     function email_send($email, $code) {
         $this->load->library('email');
 
         $this->email->from('withcar666@gmail.com', '나');
         $this->email->to($email);
         $this->email->subject('WITHCAR 메일 인증');
-
-        // $code = sprintf('%02d', mt_rand(0000,9999)); 원래 php 로 생성하려다 javascript 로 변경
 
         $this->email->message('인증번호는 '.$code.' 입니다.');
 
@@ -111,6 +103,14 @@ class Withcar extends CI_Controller {
         // } else {
         //     echo $this->email->print_debugger();
         // }
+    }
+
+    function email_signup() {
+        $email_id = $this->input->post('email');
+
+        $this->load->view('section/head');
+        $this->load->view('email_signup', array('email_id' => $email_id));
+        $this->load->view('section/footer');
     }
 
     function email_signup2() {
