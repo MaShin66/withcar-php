@@ -111,18 +111,18 @@
       } else if($this->session->userdata('is_login') === true) {
         if($this->session->userdata('is_driving') === '1') { ?>
         <!-- 로그인 + 드라이버 모드라면 탑승자로 바꿀 수 있는 버튼 -->
-          <button type="button" class="switch_button" onclick="location.href='<?=site_url()?>/withcar/change_mode/<?=$session_data['user_id']?>';">
+          <button type="button" class="switch_button" onclick="move_div_ftn()">
             <div class="switch_div" style="background-color: lightpink;">
             <div class="driver_font">드라이빙</div>
-            <div class="move_div"></div>  
+            <div id="move_div" class="move_div"></div>
             </div>
           </button>
         <?php
         } else if($this->session->userdata('is_driving') === '0' && $this->session->userdata('is_driver') === '1') { ?>
         <!-- 로그인 + 탑승자 모드 + 운전 등록자라면 드라이버로 바꿀 수 있는 버튼 -->
-          <button type="button" class="switch_button" onclick="location.href='<?=site_url()?>/withcar/change_mode/<?=$session_data['user_id']?>';">
+          <button type="button" class="switch_button" onclick="move_div_ftn()">
             <div class="switch_div">
-              <div class="move_div"></div>
+              <div id="move_div" class="move_div"></div>
               <div class="driver_font">드라이빙</div>
             </div>
           </button>
@@ -158,4 +158,20 @@
       });
     }
   //]]>
+  
+
+function move_div_ftn() {
+  var is_driving = '<?=$this->session->userdata('is_driving')?>';  
+  
+  if(is_driving === '1') {
+    move_div.style.transform = "translate(-63px, 0)";
+    move_div.style.transition = "0.5s";
+    location.href='<?=site_url()?>/withcar/change_mode/<?=$session_data['user_id']?>';
+  } else if(is_driving === '0') {
+    move_div.style.transform = "translate(63px, 0)";
+    move_div.style.transition = "0.5s";
+    location.href='<?=site_url()?>/withcar/change_mode/<?=$session_data['user_id']?>';
+  }
+}
+
 </script>
