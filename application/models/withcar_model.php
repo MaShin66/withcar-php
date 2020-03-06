@@ -132,7 +132,23 @@ class Withcar_model extends CI_Model {
 		return $query->row();
 	}
 
-	
+	function chat_insert($data) {
+		// $data['user_msg_time'] = date("Y-m-d H:i:s");
+		
+		$data['user_msg'] = json_encode(array('user_msg' => '메시지'), JSON_UNESCAPED_UNICODE);
+		var_dump($data);
+		// $data['user_msg'] = '2';
+
+		$this->db->insert('chat', $data);
+		return $this->db->insert_id();
+	}
+
+	function chat_get($data) {
+		$this->db->select('*');
+		return $this->db->get_where($table, array($column => $data)) -> row();
+	}
+
+
 }
 
 // function board()

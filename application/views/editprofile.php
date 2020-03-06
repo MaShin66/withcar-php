@@ -27,7 +27,6 @@
     <div>이메일 주소 <?=$return_user_value->email?></div>
     <div>휴대폰 번호 <a href="tel: <?=$return_user_value->phone?>"><?=$return_user_value->phone?></a></div>
     <div><a href="../changepwd/<?=$return_user_value->user_id?>">비밀번호 변경</a></div>
-    <div><a href="../mail_test/<?=$return_user_value->user_id?>">메일 테스트</a></div>
     <br>
 <?php
     if($return_user_value->is_driver === '0') { ?>

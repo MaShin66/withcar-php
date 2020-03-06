@@ -475,4 +475,44 @@ class Withcar extends CI_Controller {
         redirect('withcar', 'refresh');
     }
 
+    function message_test() {
+        $this->load->view('curl_send');
+    }
+
+    function chat_test($user_id = 1, $driver_id = 2) {
+        $this->load->view('chat_test', array('user_id' => $user_id, 'driver_id' => $driver_id));
+    }
+
+    function chat_db() {
+        // chat_id	
+        // user_id
+        // user_name
+        // driver_id
+        // driver_name
+        // user_msg
+        // user_msg_time
+        // driver_msg
+        // driver_msg_time
+
+        $user_id = $this->input->post('user_id');
+        $user_name = $this->input->post('user_name');
+        $user_msg = $this->input->post('user_msg');
+
+        $user_msg = (object)['user_msg' => $user_msg];
+
+        // var_dump($user_id, $user_name, $user_msg);
+        
+        $data = array('user_id' => $user_id, 'user_name' => $user_name, 'user_msg' => $user_msg);
+
+        // var_dump($data);
+        
+        $chat_id = $this->Withcar_model->chat_insert($data);
+
+        // $this->Withcar_model->chat_get($chat_id);
+
+        
+
+        // echo $return_msg;
+    }
+
 }

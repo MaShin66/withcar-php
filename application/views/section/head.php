@@ -161,16 +161,17 @@
   
 
 function move_div_ftn() {
-  var is_driving = '<?=$this->session->userdata('is_driving')?>';  
-  
+  var is_driving = '<?=$this->session->userdata('is_driving')?>';
+  var user_id = '<?=$this->session->userdata('user_id')?>'; // 바로 주소로 넣으면 로그아웃시에 못불러와서 문제
+
   if(is_driving === '1') {
     move_div.style.transform = "translate(-63px, 0)";
     move_div.style.transition = "0.5s";
-    location.href='<?=site_url()?>/withcar/change_mode/<?=$session_data['user_id']?>';
+    location.href='<?=site_url()?>/withcar/change_mode/'+user_id;
   } else if(is_driving === '0') {
     move_div.style.transform = "translate(63px, 0)";
     move_div.style.transition = "0.5s";
-    location.href='<?=site_url()?>/withcar/change_mode/<?=$session_data['user_id']?>';
+    location.href='<?=site_url()?>/withcar/change_mode/'+user_id;
   }
 }
 
