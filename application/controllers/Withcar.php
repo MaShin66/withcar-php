@@ -479,40 +479,68 @@ class Withcar extends CI_Controller {
         $this->load->view('curl_send');
     }
 
-    function chat_test($user_id = 1, $driver_id = 2) {
-        $this->load->view('chat_test', array('user_id' => $user_id, 'driver_id' => $driver_id));
+    function chat($ride_id) {
+        $this->_login_check();
+        $session_data = $this->session->userdata();
+
+        // 기존 채팅방이 있는지 $ride_id 로 확인
+        $chat = $this->Withcar_model->chat_is($ride_id);
+
+        if(!$chat['ride_id']) { // ride_id가 없으니 chat_id 생성하면서 넣어주고
+            $data = array('ride_id' => $ride_id);
+            $chat_id = $this->Withcar_model->chat_start($data);
+            $chat_data = $this->Withcar_model->chat_get($chat_id);
+        } else if($chat['ride_id']) { // ride_id 가 있다면 기존 방도 있다
+            $chat_data = $this->Withcar_model->chat_get($chat['chat_id']);
+        }
+
+        if(!$chat_data['driver_id'] || !$chat_data['user_id']) { // 둘중 하나가 비어있을 때
+            if($session_data['is_driving'] === '1') { // 드라이버라면 user_id 가 driver_id 이고
+                $data = array('driver_id' => $session_data['user_id'], 'driver_name' => $session_data['user_name']);
+            } else if($session_data['is_driving'] === '0') { // 탑승자라면 user_id 가 user_id 이고
+                $data = array('user_id' => $session_data['user_id'], 'user_name' => $session_data['user_name']);
+            }
+            
+            $chat_return = $this->Withcar_model->chat_update($chat_data['chat_id'], $data);
+
+            var_dump($chat_return);
+
+            
+        } else { // 기존 채팅방이 있을 때
+            $msg = $this->Withcar_model->chat_get($chat['chat_id']);
+
+            
+        }   
+        
+        $this->load->view('section/head', array('session_data' => $session_data));
+        $this->load->view('chat', array('ride_id' => $ride_id, '$chat_id' => $chat_data['chat_id'], 'msg' => $msg));
+        $this->load->view('section/footer');
+
+        
     }
 
     function chat_db() {
         // chat_id	
+        // ride_id
         // user_id
         // user_name
         // driver_id
         // driver_name
         // user_msg
-        // user_msg_time
         // driver_msg
-        // driver_msg_time
+
 
         $user_id = $this->input->post('user_id');
         $user_name = $this->input->post('user_name');
         $user_msg = $this->input->post('user_msg');
-
-        $user_msg = (object)['user_msg' => $user_msg];
-
-        // var_dump($user_id, $user_name, $user_msg);
         
         $data = array('user_id' => $user_id, 'user_name' => $user_name, 'user_msg' => $user_msg);
-
-        // var_dump($data);
         
-        $chat_id = $this->Withcar_model->chat_insert($data);
+        $return_array = $this->Withcar_model->chat_insert($data);
 
-        // $this->Withcar_model->chat_get($chat_id);
-
+        echo json_encode($return_array, JSON_UNESCAPED_UNICODE);
         
-
-        // echo $return_msg;
     }
+
 
 }

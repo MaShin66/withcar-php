@@ -82,6 +82,8 @@
         <div class="cancel_style"><a href="../ride_cancel/<?=$return_value->ride_id?>">운행 취소</a></div>
         <br>
         <div class="cancel_style"><a href="../onroute/<?=$return_value->ride_id?>">탑승자를 태웠다면<br>클릭해주세요</a></div>
+        <br>
+        <div class="cancel_style"><a href="../chat/<?=$return_value->ride_id?>">채팅하기</a></div>
     <?php
     } else if($return_value->status === 'ONROUTE') { ?>
         <h1>운행중입니다..</h1>

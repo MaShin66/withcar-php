@@ -111,9 +111,14 @@
         <?php
         } else if($session_data['is_driving'] === '0' 
             && ($session_data['user_id'] === $return_ride_value->user_id)
-            && ($return_ride_value->status === 'REQUESTING' 
+            && ($return_ride_value->status === 'REQUESTING'
             || $return_ride_value->status === 'ACCEPTED' 
-            || $return_ride_value->status === 'ONROUTE')) { ?>
+            || $return_ride_value->status === 'ONROUTE')) { 
+                if($return_ride_value->status === 'ACCEPTED') { ?>
+                    <div class="cancel_style"><a href="../chat/<?=$return_ride_value->ride_id?>">채팅하기</a></div>
+                    <br>
+                <?php
+                } ?>
             <div class="cancel_style"><a href="../ride_cancel/<?=$return_ride_value->ride_id?>">운행 취소</a></div>
         <?php
         }
