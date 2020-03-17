@@ -5,6 +5,7 @@ class Withcar extends CI_Controller {
   function __construct() { // 초기화 하는 곳이라 처음 생성할 때 로드하는 곳
         parent::__construct();
         $this->load->model('Withcar_model');
+        date_default_timezone_set('Asia/Seoul');
 	}
 
     public function index() { // 처음 게시판
@@ -501,45 +502,34 @@ class Withcar extends CI_Controller {
                 $data = array('user_id' => $session_data['user_id'], 'user_name' => $session_data['user_name']);
             }
             
-            $chat_return = $this->Withcar_model->chat_update($chat_data['chat_id'], $data);
-
-            var_dump($chat_return);
-
-            
+            $return_chat = $this->Withcar_model->chat_update($chat_data['chat_id'], $data);
         } else { // 기존 채팅방이 있을 때
-            $msg = $this->Withcar_model->chat_get($chat['chat_id']);
-
-            
+            $return_chat = $this->Withcar_model->chat_get($chat['chat_id']);
         }   
-        
-        $this->load->view('section/head', array('session_data' => $session_data));
-        $this->load->view('chat', array('ride_id' => $ride_id, '$chat_id' => $chat_data['chat_id'], 'msg' => $msg));
-        $this->load->view('section/footer');
 
-        
+        $this->load->view('section/head', array('session_data' => $session_data));
+        $this->load->view('chat', array('return_chat' => $return_chat));
+        $this->load->view('section/footer');
     }
 
-    function chat_db() {
-        // chat_id	
-        // ride_id
-        // user_id
-        // user_name
-        // driver_id
-        // driver_name
-        // user_msg
-        // driver_msg
+    function chat_submit() {
+        $session_data = $this->session->userdata();
 
-
-        $user_id = $this->input->post('user_id');
-        $user_name = $this->input->post('user_name');
-        $user_msg = $this->input->post('user_msg');
+        $msg = $this->input->post('msg');
+        $chat_id = $this->input->post('chat_id');
         
-        $data = array('user_id' => $user_id, 'user_name' => $user_name, 'user_msg' => $user_msg);
-        
-        $return_array = $this->Withcar_model->chat_insert($data);
+        $return_array = $this->Withcar_model->chat_insert($chat_id, $msg);
 
         echo json_encode($return_array, JSON_UNESCAPED_UNICODE);
         
+    }
+
+    function chat_get() {
+        $chat_id = $this->input->post('chat_id');
+
+        $return_array = $this->Withcar_model->chat_get($chat_id);
+
+        echo json_encode($return_array, JSON_UNESCAPED_UNICODE);
     }
 
 

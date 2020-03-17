@@ -1,63 +1,66 @@
-<!-- <?php
-    var_dump($session_data);
-    var_dump($ride_id);
-    var_dump($chat_id);
-?> -->
-
 <div id="chat_div">채팅 방</div>
 
 출력창: <div id="message"></div>
 
-입력창: <input type="text" id="user_msg">
+입력창: <input type="text" id="msg">
+
+<input type="hidden" id="chat_id" value="<?=$return_chat['chat_id']?>">
+<input type="hidden" id="is_driving" value="<?=$session_data['is_driving']?>">
+
 <button type="button" onclick="chat_submit()">전송</button>
 
+
 <script>
-var user_msg = document.getElementById('user_msg').value;
-var ride_id = <?=$ride_id?>;
 
-console.log(ride_id);
+// setInterval("chat_get()", 1000);
+setTimeout("chat_get()", 1000);
 
-// function chat() {
-//     $.ajax({
-//         url: '',
-//         type: 'POST',
-//         data: { chat_id: chat_id },
-//         dataType: 'json',
-//         success: function($return_msg) {
-//             console.log($return_msg);
-//             for(var key in $return_msg) {
-//                 console.log(key);
-//                 console.log($return_msg[key]);
-//                 $('#message').html('<div>'+key+'</div>');
-//             }
-//         },
-//         error: function(request, status, error) {
-//             console.log(request.responseText, status, error);
-//         }
-//     });
-// }
+var chat_id = document.getElementById('chat_id').value;
+var is_driving = document.getElementById('is_driving').value;
+
+function chat_get() {
+    $.ajax({
+        url: '../chat_get',
+        type: 'POST',
+        data: { chat_id: chat_id },
+        dataType: 'json',
+        success: function($return_msg) {
+            console.log($return_msg);
+            if(is_driving === '1') {
+                console.log('운전자');
+                console.log(JSON.parse($return_msg['driver_msg']));
+                // for(var key in $return_msg) {
+                //     $('#message').append('<div>'+$return_msg[key]+'</div>');
+                // }
+            } else if(is_driving === '0') {
+                console.log('운전자');
+            }
+            
+        },
+        error: function(request, status, error) {
+            console.log(request.responseText, status, error);
+        }
+    });
+}
 
 
-// function chat_submit() {
-//     $.ajax({
-//         url: 'chat_db',
-//         type: 'POST',
-//         data: { user_msg: user_msg },
-//         dataType: 'json',
-//         success: function($return_msg) {
-//             console.log('성공');
-//             console.log($return_msg);
-//             for(var key in $return_msg) {
-//                 console.log(key);
-//                 console.log($return_msg[key]);
-//                 $('#message').html('<div>'+key+'</div>');
-//             }
-//         },
-//         error: function(request, status, error) {
-//             console.log('실패');
-//             console.log(request.responseText, status, error);
-//         }
-//     });
-// }
+function chat_submit() {
+    var msg = document.getElementById('msg').value;
+
+    $.ajax({
+        url: '../chat_submit',
+        type: 'POST',
+        data: { chat_id: chat_id, msg: msg },
+        dataType: 'json',
+        success: function($return_msg) {
+            console.log('성공');
+            console.log($return_msg);
+        },
+        error: function(request, status, error) {
+            console.log('실패');
+            console.log(request.responseText, status, error);
+        }
+    });
+}
 
 </script>

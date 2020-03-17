@@ -150,57 +150,52 @@ class Withcar_model extends CI_Model {
 	function chat_get($chat_id) {
 		$this->db->select('*');
 		return $this->db->get_where('chat', array('chat_id' => $chat_id)) -> row_array();
+
+		// $return_value = $this->db->get_where('chat', array('chat_id' => $chat_id)) -> row_array();
+		// var_dump($return_value);
 	}
 
 	function chat_update($chat_id, $data) {
 		$this->db->where('chat_id', $chat_id);
 		$this->db->update('chat', $data);
 
-		return $this->db->get_where('chat', array('chat_id' => $chat_id)) -> row();
+		return $this->db->get_where('chat', array('chat_id' => $chat_id)) -> row_array();
 	}
 
-	
+	function chat_insert($chat_id, $msg) {
+		$session_data = $this->session->userdata();
 
-	function chat_insert($data) {
-		// $data['user_msg_time'] = date("Y-m-d H:i:s");
-		// var_dump($data);
+		// 기존 대화 데이터 있으면 추가하도록 적기
+		$origin_msg = $this->chat_get($chat_id);
 
-		$data['user_msg'] = array('시간' => '메시지');
-		// var_dump($data);
+		if($session_data['is_driving'] === '1') {
+			if(isset($origin_msg['driver_msg'])) {
+				$decode_origin_msg = json_decode($origin_msg['driver_msg']);
+				$current_time = date("Y-m-d H:i:s", time());
+				$decode_origin_msg->$current_time = $msg;
+				$origin_msg['driver_msg'] = json_encode($decode_origin_msg, JSON_UNESCAPED_UNICODE);
+				$msg_data = $origin_msg;
+			} else if(!isset($origin_msg['driver_msg'])) {
+				$msg_data['driver_msg'][date("Y-m-d H:i:s")] = $msg;
+				$msg_data['driver_msg'] = json_encode($msg_data, JSON_UNESCAPED_UNICODE);
+			}
+		} else if($session_data['is_driving'] === '0') {
+			if(isset($origin_msg['user_msg'])) {
+				$decode_origin_msg = json_decode($origin_msg['user_msg']);
+				$current_time = date("Y-m-d H:i:s", time());
+				$decode_origin_msg->$current_time = $msg;
+				$origin_msg['user_msg'] = json_encode($decode_origin_msg, JSON_UNESCAPED_UNICODE);
+				$msg_data = $origin_msg;
+			} else if(!isset($origin_msg['user_msg'])) {
+				$msg_data['user_msg'][date("Y-m-d H:i:s")] = $msg;
+				$msg_data['user_msg'] = json_encode($msg_data, JSON_UNESCAPED_UNICODE);
+			}
+		}
 
-		$data['user_msg']['시간2'] = '메시지2';
-		// var_dump('raw_data: ', $data);
-
-		$data['user_msg'] = json_encode($data['user_msg'], JSON_UNESCAPED_UNICODE);
-		// var_dump('json_encode: ', $data);
-		// $data['user_msg'] = '2';
-
-		$this->db->insert('chat', $data);
-		$chat_id = $this->db->insert_id();
-
-		// $this->db->select('user_msg');
-		// return $this->db->get_where('chat', array('chat_id' => $chat_id)) -> row_array();
-
-
-		// $value = $this->db->query("select JSON_ARRAY(user_msg) from chat where chat_id=$chat_id")->row();
-
-		// var_dump($value);
-
-		$this->db->select('user_msg');
-		$this->db->from('chat');
 		$this->db->where('chat_id', $chat_id);
-		$query = $this->db->get();
-		$value = $query->row_array();
+		$this->db->update('chat', $msg_data);
 
-		return json_decode($value['user_msg'], JSON_UNESCAPED_UNICODE);
-
-
-
-		// $this->db->where('chat_id', 1);
-		// $this->db->set('user_msg', $data['user_msg']);
-		// $this->db->update('chat');
-
-		
+		return $this->db->get_where('chat', array('chat_id' => $chat_id)) -> row_array();
 	}
 
 
