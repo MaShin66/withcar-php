@@ -174,10 +174,9 @@ class Withcar_model extends CI_Model {
 				$current_time = date("Y-m-d H:i:s", time());
 				$decode_origin_msg->$current_time = $msg;
 				$origin_msg['driver_msg'] = json_encode($decode_origin_msg, JSON_UNESCAPED_UNICODE);
-				$msg_data = $origin_msg;
 			} else if(!isset($origin_msg['driver_msg'])) {
-				$msg_data['driver_msg'][date("Y-m-d H:i:s")] = $msg;
-				$msg_data['driver_msg'] = json_encode($msg_data, JSON_UNESCAPED_UNICODE);
+				$origin_msg['driver_msg'][date("Y-m-d H:i:s")] = $msg;
+				$origin_msg['driver_msg'] = json_encode($origin_msg['driver_msg'], JSON_UNESCAPED_UNICODE);
 			}
 		} else if($session_data['is_driving'] === '0') {
 			if(isset($origin_msg['user_msg'])) {
@@ -185,15 +184,14 @@ class Withcar_model extends CI_Model {
 				$current_time = date("Y-m-d H:i:s", time());
 				$decode_origin_msg->$current_time = $msg;
 				$origin_msg['user_msg'] = json_encode($decode_origin_msg, JSON_UNESCAPED_UNICODE);
-				$msg_data = $origin_msg;
 			} else if(!isset($origin_msg['user_msg'])) {
-				$msg_data['user_msg'][date("Y-m-d H:i:s")] = $msg;
-				$msg_data['user_msg'] = json_encode($msg_data, JSON_UNESCAPED_UNICODE);
+				$origin_msg['user_msg'][date("Y-m-d H:i:s")] = $msg;
+				$origin_msg['user_msg'] = json_encode($origin_msg['user_msg'], JSON_UNESCAPED_UNICODE);
 			}
 		}
 
 		$this->db->where('chat_id', $chat_id);
-		$this->db->update('chat', $msg_data);
+		$this->db->update('chat', $origin_msg);
 
 		return $this->db->get_where('chat', array('chat_id' => $chat_id)) -> row_array();
 	}
