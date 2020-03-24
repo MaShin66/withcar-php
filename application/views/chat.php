@@ -7,7 +7,7 @@
 <input type="hidden" id="chat_id" value="<?=$return_chat['chat_id']?>">
 <input type="hidden" id="is_driving" value="<?=$session_data['is_driving']?>">
 
-<button type="button" onclick="chat_submit()">전송</button>
+<button type="button" id="chat_submit" onclick="chat_submit()">전송</button>
 
 
 <script>
@@ -33,27 +33,28 @@ function chat_get() {
 
             if(is_driving === '1') {
                 console.log('운전자');
-                for(var key1 in json_user_msg) {
-                    for(var key2 in json_driver_msg) {
+                for(var key1 in json_driver_msg) {
+                    for(var key2 in json_user_msg) {
                         if(key1 < key2) {
-                            $('#message').append('<div style="text-align: left;">'+key1.substr(11, 5)+' '+json_user_msg[key1]+'</div>');
-                            delete json_user_msg[key1];
+                            $('#message').append('<div style="text-align: right;">'+key1.substr(11, 5)+' '+json_driver_msg[key1]+'</div>');
+                            delete json_driver_msg[key1];
                             break;
                         } else if(key1 >= key2) {
-                            $('#message').append('<div style="text-align: right;">'+key2.substr(11, 5)+' '+json_driver_msg[key2]+'</div>');
-                            delete json_driver_msg[key2];
+                            $('#message').append('<div style="text-align: left;">'+key2.substr(11, 5)+' '+json_user_msg[key2]+'</div>');
+                            delete json_user_msg[key2];
                         }
                     }
+
+                        var user_msg_keys = Object.keys(json_user_msg);
+                        var driver_msg_keys = Object.keys(json_driver_msg);
                     
-                    var user_msg_keys = Object.keys(json_user_msg);
-                    var driver_msg_keys = Object.keys(json_driver_msg);
-                    
-                    if(user_msg_keys.length == 1 && driver_msg_keys.length == 0) {
-                        $('#message').append('<div style="text-align: left;">'+key1.substr(11, 5)+' '+json_user_msg[key1]+'</div>');
-                    } else if(user_msg_keys.length == 0 && driver_msg_keys.length == 1) {
-                        $('#message').append('<div style="text-align: right;">'+key2.substr(11, 5)+' '+json_driver_msg[key2]+'</div>');
-                    }
-                    
+                        if(user_msg_keys.length == 0) { // 드라이버만 계속 보낼 때
+                            $('#message').append('<div style="text-align: right;">'+key1.substr(11, 5)+' '+json_driver_msg[key1]+'</div>');
+                        } else if(driver_msg_keys.length == 0) { // 탑승자만 계속 보낼 때
+                            for(key2 in json_user_msg) {
+                                $('#message').append('<div style="text-align: left;">'+key2.substr(11, 5)+' '+json_user_msg[key2]+'</div>');
+                            }
+                        }
                 }
             } else if(is_driving === '0') {
                 console.log('탑승자');
@@ -71,14 +72,18 @@ function chat_get() {
                     
                     var user_msg_keys = Object.keys(json_user_msg);
                     var driver_msg_keys = Object.keys(json_driver_msg);
-                    
-                    if(user_msg_keys.length == 1 && driver_msg_keys.length == 0) {
+
+                    if(driver_msg_keys.length == 0) {
                         $('#message').append('<div style="text-align: right;">'+key1.substr(11, 5)+' '+json_user_msg[key1]+'</div>');
-                    } else if(user_msg_keys.length == 0 && driver_msg_keys.length == 1) {
-                        $('#message').append('<div style="text-align: left;">'+key2.substr(11, 5)+' '+json_driver_msg[key2]+'</div>');
+                    } else if(user_msg_keys.length == 0) {
+                        for(key2 in json_driver_msg) {
+                            $('#message').append('<div style="text-align: left;">'+key2.substr(11, 5)+' '+json_driver_msg[key2]+'</div>');
+                        }
                     }
                     
                 }
+
+
                 
             }
         },
@@ -99,7 +104,7 @@ function chat_submit() {
         dataType: 'json',
         success: function($return_msg) {
             console.log('성공');
-            console.log($return_msg);
+            // $('#chat_submit').html('<div></div>');
         },
         error: function(request, status, error) {
             console.log('실패');
