@@ -119,7 +119,7 @@
                     <br>
                 <?php
                 } ?>
-            <div class="cancel_style"><a href="../ride_cancel/<?=$return_ride_value->ride_id?>">운행 취소</a></div>
+            <div class="cancel_style"><a href="../ride_cancel/<?=$return_ride_value->ride_id?>">등록 취소하기</a></div>
         <?php
         }
     ?>

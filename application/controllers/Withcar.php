@@ -12,7 +12,8 @@ class Withcar extends CI_Controller {
         if($this->session->userdata('is_driving') === '0') { // 탑승자 모드
             $return_ride_value = $this->Withcar_model->get_result3('ride', 'user_id', $this->session->userdata('user_id'),'status', 'ONROUTE');
             if($return_ride_value) { // ONROUTE 인 운행이 있다면 운행중인 페이지 보여주고
-                $this->riding($return_ride_value->ride_id);
+                // $this->riding($return_ride_value->ride_id);
+                redirect('withcar/onroute/'.$return_ride_value->ride_id, 'refresh');
             } else { // 운행중인 페이지 없다면 운행 리스트 보여주기
                 $session_data = $this->session->userdata();
                 $this->load->view('section/head', array('session_data' => $session_data));
@@ -22,7 +23,8 @@ class Withcar extends CI_Controller {
         } else if($this->session->userdata('is_driving') === '1') { // 운행자 모드
             $return_ride_value = $this->Withcar_model->get_result3('ride', 'driver_id', $this->session->userdata('user_id'),'status', 'ONROUTE');
             if($return_ride_value) { // ONROUTE 인 운행이 있다면 운행중인 페이지 보여주고
-                $this->riding($return_ride_value->ride_id);
+                // $this->riding($return_ride_value->ride_id);
+                redirect('withcar/onroute/'.$return_ride_value->ride_id, 'refresh');
             } else { // 운행중인 페이지 없다면 운행 리스트 보여주기
                 $this->ridelist();
             }
@@ -184,6 +186,9 @@ class Withcar extends CI_Controller {
                 echo '<script>alert("드라이버가 운행을 시작했습니다. 운행정보 페이지로 이동합니다.");</script>';
             }
             redirect('withcar/onroute/'.$return_ride_value->ride_id, 'refresh');
+        } else if($return_ride_value->status === 'CANCELED') {
+            echo '<script>alert("탑승자가 운행을 취소했습니다.");</script>';
+            redirect('withcar/ridelist', 'refresh');
         }
 
         if($return_ride_value->status === 'UNPAID') {
@@ -204,16 +209,18 @@ class Withcar extends CI_Controller {
         $this->_login_check();
         
         $session_data = $this->session->userdata();
-        if($session_data['is_driving'] === '1' && !strstr($_SERVER['HTTP_REFERER'], 'requested_ride')) {
-            echo '<script>alert("운행을 예약했습니다")</script>';    
+        $return_value = $this->Withcar_model->update_data('ride_id', $ride_id, 'status', 'ACCEPTED', 'ride');
+        if(isset($return_value->driver_id) === false && $session_data['is_driving'] === '1' && !strstr($_SERVER['HTTP_REFERER'], 'requested_ride')) {
+            $data['status'] = 'ACCEPTED';
+            $data['driver_id'] = $this->session->userdata('user_id');
+            $data['driver_name'] = $this->session->userdata('user_name');
+            $data['driver_phone'] = $this->session->userdata('phone');
+            $return_value = $this->Withcar_model->update_data2('ride_id', $ride_id, $data, 'ride');
+            echo '<script>alert("운행을 예약했습니다")</script>';
+        } else if($return_value->driver_id != $session_data['user_id']) {
+            echo '<script>alert("다른 드라이버가 운행을 수락했습니다.");</script>';
+            redirect('withcar/ridelist', 'refresh');
         }
-        // 유저쪽에서 신청한 ride의 status가 ACCEPTED 로 변경됐을 때 알림 필요
-        $return_value = $this->Withcar_model->update_data('ride_id', $ride_id, 'status', 'ACCEPTED', 'ride'); 
-        $data['status'] = 'ACCEPTED';
-        $data['driver_id'] = $this->session->userdata('user_id');
-        $data['driver_name'] = $this->session->userdata('user_name');
-        $data['driver_phone'] = $this->session->userdata('phone');
-        $return_value = $this->Withcar_model->update_data2('ride_id', $ride_id, $data, 'ride');
         $this->load->view('section/head', array('session_data' => $session_data));
         $this->load->view('riding', array('return_value' => $return_value));
         $this->load->view('section/footer');
@@ -324,7 +331,7 @@ class Withcar extends CI_Controller {
     function ride_cancel($ride_id) {
         echo '<script>alert("탑승을 취소했습니다")</script>';
 
-        $return_value = $this->Withcar_model->update_data('ride_id', $ride_id, 'status', 'REQUESTING', 'ride');
+        $return_value = $this->Withcar_model->update_data('ride_id', $ride_id, 'status', 'CANCELED', 'ride');
         redirect('withcar/ridelist', 'refresh');
     }
 
@@ -480,7 +487,7 @@ class Withcar extends CI_Controller {
         $this->load->view('curl_send');
     }
 
-    function chat($ride_id) {
+    function chat($ride_id) { // 잠시 chat2 으로 변경
         $this->_login_check();
         $session_data = $this->session->userdata();
 
@@ -530,6 +537,14 @@ class Withcar extends CI_Controller {
         $return_array = $this->Withcar_model->chat_get($chat_id);
 
         echo json_encode($return_array, JSON_UNESCAPED_UNICODE);
+    }
+
+    function test() {
+        $this->load->view('test.html');
+    }
+
+    function chat2() { // 쓰려면 chat 으로 변경
+        $this->load->view('chat.html');
     }
 
 
